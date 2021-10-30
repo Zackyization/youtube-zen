@@ -1,18 +1,18 @@
 {
 
     "manifest_version": 2,
-    "name": "Borderify",
+    "name": "Youtube Productivity Tool",
     "version": "1.0",
 
-    "description": "Adds a red border to all webpages matching mozilla.org.",
+    "description": "Boosts productivity by removing video links from your recommended.",
 
     "icons": {
         "48": "icons/border-48.png"
     },
 
     "content_scripts": [{
-        "matches": ["*://*.mozilla.org/*"],
-        "js": ["borderify/borderify.js"]
+        "matches": ["*://*.youtube.com/*"],
+        "js": ["youtube-productivity/youtube-productivity.js"]
     }]
 
 }
