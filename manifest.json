@@ -1,10 +1,9 @@
 {
-
     "manifest_version": 2,
     "name": "Youtube Productivity Tool",
     "version": "1.0",
-
-    "description": "Boosts productivity by removing video links from your recommended.",
+    "description": "Boosts productivity by removing video links from your recommended on youtube.",
+    "homepage_url": "https://github.com/Zackyization/youtube-productivity-webtool",
 
     "icons": {
         "48": "icons/border-48.png"
@@ -12,7 +11,15 @@
 
     "content_scripts": [{
         "matches": ["*://*.youtube.com/*"],
-        "js": ["youtube-productivity/youtube-productivity.js"]
-    }]
+        "js": ["youtube-productivity.js"]
+    }],
 
+    "background": {
+        "scripts": ["youtube-productivity-background.js"]
+    },
+
+    "permissions": [
+        "activeTab",
+        "tabs"
+    ]
 }

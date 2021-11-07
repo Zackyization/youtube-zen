@@ -1,0 +1,12 @@
+@media (prefers-color-scheme:dark) {
+    /* Dark mode Styling*/
+    #youtube-productivity-tool-area {
+        color: white;
+    }
+}
+
+#youtube-productivity-tool-area {
+    border: 5px solid red;
+    color: red;
+
+}
