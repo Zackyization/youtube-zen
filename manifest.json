@@ -1,25 +1,26 @@
 {
     "manifest_version": 2,
-    "name": "Youtube Productivity Tool",
-    "version": "1.0",
+    "name": "Focused Youtube",
+    "version": "0.2",
     "description": "Boosts productivity by removing video links from your recommended on youtube.",
     "homepage_url": "https://github.com/Zackyization/youtube-productivity-webtool",
 
     "icons": {
-        "48": "icons/border-48.png"
+        "48": "icons/focused_youtube_icon_default.svg",
+        "96": "icons/focused_youtube_icon_default.svg"
     },
 
     "content_scripts": [{
         "matches": ["*://*.youtube.com/*"],
-        "js": ["youtube-productivity.js"]
+        "js": ["js/focused-youtube.js"]
     }],
 
     "background": {
-        "scripts": ["youtube-productivity-background.js"]
+        "scripts": ["js/focused-youtube-background.js"]
     },
 
     "permissions": [
-        "activeTab",
-        "tabs"
+        "tabs",
+        "<all_urls>"
     ]
 }

@@ -6,10 +6,8 @@ ytBrowse.innerHTML = `<div id="youtube-productivity-tool-area">
 </div>`;
 
 /*
-TODO: Extension logo, make in inkscape.
-TODO: Web extension popup menu that lets users toggle between productivity mode on/off. Ref: https://developer.mozilla.org/en-US/docs/Mozilla/Add-ons/WebExtensions/user_interface/Popups
+TODO: Web extension popup menu that lets users toggle between productivity mode on/off.
 TODO: Remove the recommended videos section on a video page. (The page where you actually watch a video)
-TODO: Consider renaming the extension to "YouTube Focused"
 NOTE: https://addons.mozilla.org/en-US/firefox/addon/df-youtube/, research the existing solutions,
 see what you can do to improve on it
 NOTE: https://github.com/mdn/webextensions-examples for all your referential needs

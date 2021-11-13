@@ -1,6 +1,6 @@
 const YOUTUBE_DOMAIN = new RegExp("*://*.youtube.com/*");
-const YOUTUBE_HOME_STYLE = "youtube-home.css";
-const YOUTUBE_VIDEO_STYLE = "youtube-video.css";
+const YOUTUBE_HOME_STYLE = "style/youtube-home.css";
+const YOUTUBE_VIDEO_STYLE = "style/youtube-video.css";
 
 /*
 NOTE: https://developer.mozilla.org/en-US/docs/Mozilla/Add-ons/WebExtensions/Working_with_the_Tabs_API for reference
@@ -15,6 +15,7 @@ function initializePageAction(tab) {
     console.log(changeInfo);
     console.log("New tab Info: ");
     console.log(tabInfo);
+
     if (isItYoutube(tab)) {
         //inject css
         function onError(error) {
@@ -32,9 +33,13 @@ function isItYoutube(tab) {
     return YOUTUBE_DOMAIN.test(tab.url);
 }
 
+
 /*
 When first loaded, initialize the extension
 */
+
+//Check all tabs
+//See which tabs has the youtube URL
 
 var gettingAllTabs = browser.tabs.query({});
 console.log(gettingAllTabs);
@@ -49,6 +54,7 @@ gettingAllTabs.then((tabs) => {
 /*
 Each time a tab is updated, reinitialize the page action for that tab.
 */
+//When a tab is updated, execute the "focus" script
 browser.tabs.onUpdated.addListener((id, changeInfo, tab) => {
     initializePageAction(tab);
 });
