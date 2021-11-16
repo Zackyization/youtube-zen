@@ -5,6 +5,12 @@
     "description": "Boosts productivity by removing video links from your recommended on youtube.",
     "homepage_url": "https://github.com/Zackyization/youtube-productivity-webtool",
 
+    "browser_action": {
+        "browser_style": true,
+        "default_title": "Focused Youtube",
+        "default_popup": "focused-youtube.html"
+    },
+
     "icons": {
         "48": "icons/focused_youtube_icon_default.svg",
         "96": "icons/focused_youtube_icon_default.svg"
@@ -21,6 +27,7 @@
 
     "permissions": [
         "tabs",
-        "<all_urls>"
+        "<all_urls>",
+        "activeTab"
     ]
 }
