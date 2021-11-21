@@ -3,7 +3,7 @@
     "name": "Focused Youtube",
     "version": "0.2",
     "description": "Boosts productivity by removing video links from your recommended on youtube.",
-    "homepage_url": "https://github.com/Zackyization/youtube-productivity-webtool",
+    "homepage_url": "https://github.com/Zackyization/focused-youtube",
 
     "browser_action": {
         "browser_style": true,
@@ -26,8 +26,6 @@
     },
 
     "permissions": [
-        "tabs",
-        "<all_urls>",
-        "activeTab"
+        "*://*.youtube.com/*"
     ]
 }
