@@ -8,7 +8,7 @@
     "browser_action": {
         "browser_style": true,
         "default_title": "Focused Youtube",
-        "default_popup": "focused-youtube.html"
+        "default_popup": "popup/focused-youtube-popup.html"
     },
 
     "icons": {

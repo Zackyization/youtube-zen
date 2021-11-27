@@ -12,7 +12,7 @@ function notifyBackgroundPage(e) {
     let sending = browser.runtime.sendMessage({
         focus_mode: true
     });
-    sending.then(handleResponse, handleError);
+    sending.then(handleResponse, handleError);4
 }
 
 window.addEventListener("load", notifyBackgroundPage);
