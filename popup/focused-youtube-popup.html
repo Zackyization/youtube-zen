@@ -1,25 +1,31 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <link rel="stylesheet" href="focused-youtube-popup.css">
 </head>
+
 <body>
-    <!-- TODO: Markup for the focused youtube pop up to let user enable or disable the extension, or configure what they want out of the extension -->
-    <!-- What can the user configure?
+    <main role="main">
+
+        <!-- TODO: Markup for the focused youtube pop up to let user enable or disable the extension, or configure what they want out of the extension -->
+        <!-- What can the user configure?
     * TODO: Which aspects of youtube they want removed
     * TODO: Toggle to enable or disable the extension
         * Extension has to be able to save the user settings
     * TODO: Decide on the options that the user can remove from youtube, research on existing solutions
     * NOTE: https://developer.mozilla.org/en-US/docs/Mozilla/Add-ons/WebExtensions/user_interface/Popups for reference -->
-    <h1>Focused Youtube Menu</h1>
-    <form>
-        <label for="focused-toggle">Enable Focused Youtube</label>
-        <div class="toggle-switch">
-            <input type="checkbox" class="toggle-switch" name="focused-toggle" id="focused-toggle">
-        </div>
-    </form>
+        <h1>Focused Youtube Menu</h1>
+        <form role="form">
+            <div class="material-toggle">
+                <input type="checkbox" id="focused-toggle" name="focused-toggle" class="switch" />
+                <label for="focused-toggle">Enable Focused Youtube</label>
+            </div>
+        </form>
+    </main>
 
     <script src="focused-youtube-popup.js"></script>
 </body>
+
 </html>

@@ -78,8 +78,6 @@ browser.browserAction.onClicked.addListener(() => {
     }
 
     let querying = browser.tabs.query({
-        //LEFT OFF HERE, figure out how to only query the tab IDs with youtube URLs
-        // https://developer.mozilla.org/en-US/docs/Mozilla/Add-ons/WebExtensions/API/tabs/query
     });
 
     let insertingCSS = browser.tabs.insertCSS(2, {
@@ -88,6 +86,5 @@ browser.browserAction.onClicked.addListener(() => {
 
 
 
-    //LEFT OFF HERE, find a way to replace the '2' value with the tabID who's URL matches youtube
     insertingCSS.then(null, onError);
 });
