@@ -1,26 +1,24 @@
 /* 
-    Styling for the pop up menu goes here in this file
+    Styling for the pop up menu
 */
 
 /* TODO: Styling for pop up form */
-/* https://codepen.io/mhoward/pen/PGavJp, reference */
-/* LEFT OFF HERE */
+/* https://codepen.io/mhoward/pen/PGavJp, material toggle switch reference */
 .material-toggle {
-    /* position: absolute; */
+    width: 100vw;
     display: flex;
     justify-content: space-between;
-    /* height: 22px; */
-    width: 100vw;
 }
 
 .material-toggle input:empty {
-    margin-left: -9999px;
+    visibility: hidden;
+    position: absolute;
 }
 
-.material-toggle input:empty~label {
+.material-toggle input:empty~span {
     position: relative;
     float: left;
-    width: 150px;
+    /* width: 150px; */
     cursor: pointer;
     -webkit-user-select: none;
     -moz-user-select: none;
@@ -28,8 +26,8 @@
     user-select: none;
 }
 
-.material-toggle input:empty~label:before,
-.material-toggle input:empty~label:after {
+.material-toggle input:empty~span:before,
+.material-toggle input:empty~span:after {
     position: absolute;
     display: block;
     content: ' ';
@@ -37,7 +35,7 @@
     transition: all 250ms cubic-bezier(.4, 0, .2, 1);
 }
 
-.material-toggle input:empty~label:before {
+.material-toggle input:empty~span:before {
     top: 3px;
     left: 0px;
     width: 32px;
@@ -46,7 +44,7 @@
     background-color: #bdbdbd;
 }
 
-input.switch:empty~label:after {
+input.switch:empty~span:after {
     top: -1px;
     left: -9px;
     width: 1.4em;
@@ -63,12 +61,19 @@ input.switch:empty~label:after {
     box-shadow: 0 3px 4px 0 rgba(0, 0, 0, .14), 0 3px 3px -2px rgba(0, 0, 0, .2), 0 1px 8px 0 rgba(0, 0, 0, .12);
 }
 
-.material-toggle input:checked~label:before {
+.material-toggle input:checked~span:before {
     background-color: #1e88e5;
 }
 
-.material-toggle input:checked~label:after {
+.material-toggle input:checked~span:after {
     left: 15px;
     background-color: #1565c0;
     border-color: #1565c0;
 }
+
+span[for="focused-toggle"] {
+    /* TODO: Fix the flexbox issue in which the psuedoe elements are not able to be space-betweened */
+}
+
+
+/* NEW TODO: Make a <span> element function similar to the span psuedoe elements that allow it to be toggled on/off for the material switch */

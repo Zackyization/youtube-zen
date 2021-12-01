@@ -18,9 +18,22 @@
     * NOTE: https://developer.mozilla.org/en-US/docs/Mozilla/Add-ons/WebExtensions/user_interface/Popups for reference -->
         <h1>Focused Youtube Menu</h1>
         <form role="form">
-            <div class="material-toggle">
+            <!-- TODO: Make the main "enable" button similar to that of uBlock Origin, a big illustration that can toggle between on/off -->
+            <div role="checkbox" class="material-toggle">
                 <input type="checkbox" id="focused-toggle" name="focused-toggle" class="switch" />
-                <label for="focused-toggle">Enable Focused Youtube</label>
+                <label for="focused-toggle">
+                    Toggle Focused Youtube
+                </label>
+                <span class="toggle">
+                </span>
+            </div>
+            <div role="checkbox" class="material-toggle">
+                <input type="checkbox" id="home-only" name="focused-toggle" class="switch" />
+                <label for="home-only">
+                    Option &#35;2
+                </label>
+                <span class="toggle">
+                </span>
             </div>
         </form>
     </main>
