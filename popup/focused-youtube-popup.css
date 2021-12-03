@@ -18,7 +18,8 @@
 .material-toggle input:empty~span {
     position: relative;
     float: left;
-    /* width: 150px; */
+    width: 5em;
+    /*  max-width: TODO: Once you figure out the styling of the pop up menu, decide on the max-width value for responsive toggle switch positioning */
     cursor: pointer;
     -webkit-user-select: none;
     -moz-user-select: none;

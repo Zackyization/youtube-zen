@@ -9,3 +9,4 @@ let toggleFunction =  (e)=> {
 Array.from(toggleElements).forEach((e) => {
     e.addEventListener('click', toggleFunction);
 });
+

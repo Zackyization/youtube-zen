@@ -16,6 +16,15 @@
         "96": "icons/focused_youtube_icon_default.svg"
     },
 
+    "content_scripts": [{
+        "matches": ["*://*.youtube.com/*"],
+        "js": ["js/focused-youtube.js"]
+    }],
+
+    "background": {
+        "scripts": ["js/focused-youtube-background.js"]
+    },
+
     "permissions": [
         "*://*.youtube.com/*"
     ]

@@ -1,11 +1,10 @@
 const YOUTUBE_HOME_STYLE = "style/youtube-home.css";
 const YOUTUBE_VIDEO_STYLE = "style/youtube-video.css";
 /*
-NOTE: https://developer.mozilla.org/en-US/docs/Mozilla/Add-ons/WebExtensions/Working_with_the_Tabs_API for reference
 NOTE: https://developer.mozilla.org/en-US/docs/Mozilla/Add-ons/WebExtensions/API/tabs/insertCSS, more reference
-NOTE: https://developer.mozilla.org/en-US/docs/Mozilla/Add-ons/WebExtensions/Content_scripts#communicating_with_background_scripts, more reference
-    https://developer.mozilla.org/en-US/docs/Mozilla/Add-ons/WebExtensions/API/tabs/executeScript for executing a content script on a specific tab(s). [For youtube Tabs?]
 TODO: Add CSS only when domain name is youtube.com
+//NOTE: https://developer.mozilla.org/en-US/docs/Mozilla/Add-ons/WebExtensions/Content_scripts#connection-based_messaging, this section explains the messaging procedure
+NOTE: https: //extensionworkshop.com/documentation/develop/debugging/#debugging-background-scripts
 */
 
 function injectCSS(message) {
@@ -14,11 +13,29 @@ function injectCSS(message) {
     }
 }
 
-browser.runtime.onMessage.addListener(notify);
-
-function notify(message) {
-    console.log({"Message": message});
+function listenForClicks() {
+    document.addEventListener("click", (e) => {
+        console.log(e);
+    })
 }
 
-//connect to the background script
-//NOTE: https://developer.mozilla.org/en-US/docs/Mozilla/Add-ons/WebExtensions/Content_scripts#connection-based_messaging, this section explains the messaging procedure
+/**
+ * There was an error executing the script.
+ * Display the popup's error message, and hide the normal UI.
+ */
+function reportExecuteScriptError(error) {
+    alert("Focused YT: " + error.message);
+    console.error(`Failed to execute beastify content script: ${error.message}`);
+}
+
+
+/**
+ * When the popup loads, inject a content script into the active tab,
+ * and add a click handler.
+ * If we couldn't inject the script, handle the error.
+ */
+browser.tabs.executeScript({
+        file: "/content_scripts/focused-youtube.js"
+    })
+    .then(listenForClicks)
+    .catch(reportExecuteScriptError);
