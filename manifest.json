@@ -11,6 +11,14 @@
         "default_popup": "popup/focused-youtube-popup.html"
     },
 
+    "content_scripts": [{
+        "matches": ["*://*.youtube.com/*"],
+        "js": ["content_scripts/focused-youtube.js"],
+        "css": ["css/youtube-home.css"],
+        "run_at": "document_idle"
+    }],
+
+
     "icons": {
         "48": "icons/focused_youtube_icon_default.svg",
         "96": "icons/focused_youtube_icon_default.svg"

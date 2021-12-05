@@ -5,7 +5,24 @@
     }
 }
 
+/* TODO: Make the text color white or black depending on whether dark theme is enabled. */
 #focused-youtube-area {
-    border: 5px solid red;
     color: red;
+    text-align: center;
+    font-size: xx-large;
+}
+
+#focused-youtube-area,
+#focused-youtube-area .content {
+    height: 100%;
+}
+
+#focused-youtube-area .content {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#page-manager.ytd-app {
+    height: calc(100vh - 56px);
 }
