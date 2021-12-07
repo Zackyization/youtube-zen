@@ -1,13 +1,4 @@
-@media (prefers-color-scheme:dark) {
-    /* Dark mode Styling*/
-    #focused-youtube-area {
-        color: white;
-    }
-}
-
-/* TODO: Make the text color white or black depending on whether dark theme is enabled. */
 #focused-youtube-area {
-    color: red;
     text-align: center;
     font-size: xx-large;
 }
@@ -25,4 +16,18 @@
 
 #page-manager.ytd-app {
     height: calc(100vh - 56px);
+}
+
+@media (prefers-color-scheme:dark) {
+
+    /* Dark mode Styling*/
+    #focused-youtube-area {
+        color: white;
+    }
+}
+
+@media (prefers-color-scheme: light) {
+    #focused-youtube-area {
+        color: black;
+    }
 }
