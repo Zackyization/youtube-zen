@@ -1,14 +1,18 @@
-#focused-youtube-area {
+#yt-focused-area {
     text-align: center;
     font-size: xx-large;
 }
 
-#focused-youtube-area,
-#focused-youtube-area .content {
+#yt-focused-area {
+    color: #444343;
+}
+
+#yt-focused-area,
+#yt-focused-area .content {
     height: 100%;
 }
 
-#focused-youtube-area .content {
+#yt-focused-area .content {
     display: flex;
     justify-content: center;
     align-items: center;
@@ -16,18 +20,4 @@
 
 #page-manager.ytd-app {
     height: calc(100vh - 56px);
-}
-
-@media (prefers-color-scheme:dark) {
-
-    /* Dark mode Styling*/
-    #focused-youtube-area {
-        color: white;
-    }
-}
-
-@media (prefers-color-scheme: light) {
-    #focused-youtube-area {
-        color: black;
-    }
 }

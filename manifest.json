@@ -25,6 +25,7 @@
     },
 
     "permissions": [
-        "*://*.youtube.com/*"
+        "*://*.youtube.com/*",
+        "tabs"
     ]
 }
