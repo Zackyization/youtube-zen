@@ -18,6 +18,9 @@
         "run_at": "document_idle"
     }],
 
+    "options_ui": {
+        "page": "popup/options.html"
+    },
 
     "icons": {
         "48": "icons/focused_youtube_icon_default.svg",
@@ -25,7 +28,6 @@
     },
 
     "permissions": [
-        "*://*.youtube.com/*",
-        "tabs"
+        "*://*.youtube.com/*"
     ]
 }
