@@ -1,8 +1,9 @@
 const FOCUSED_YT_TOGGLE = document.getElementById("focused-toggle");
 
-/* Toggle material toggle span element switch */
+/**
+ * Toggle material toggle span element switch
+ */
 let toggleElements = document.getElementsByClassName("toggle");
-let switchElements = document.getElementsByClassName("switch");
 let toggleFunction = (e) => {
     //search siblings for the checkbox input, toggle it upon click
     let toggleCheckbox = e.originalTarget.parentNode.firstElementChild;
@@ -15,20 +16,26 @@ function onError(error) {
     console.log(`Error: ${error}`);
 }
 
+// TODO: Implementation of storage.sync in the future, use storage.local for now
+function initialize() {
+    /**
+     * Toggles the checkboxes accordingly based on user's last saved settings
+     */
+    let gettingUserChoices = browser.storage.local.get(null);
+    gettingUserChoices.then((results) => {
+        let options = Object.keys(results);
+        for (let option of options) {
+            let toggle = document.getElementById(results[option]);
+            toggle.checked = true;
+            let event = new Event("change");
+            toggle.dispatchEvent(event);
+        }
+    }, onError);
+}
 
-Array.from(toggleElements).forEach((e) => {
-    e.addEventListener("click", toggleFunction);
-});
-
-
-//TODO: On initialization, check the state of all the toggle switches
-//TODO: Save user's option settings from the popup
-Array.from(switchElements).forEach((e) => {
-    //Send message to content script to carry out the respective extension's functions depending on the option's toggle option
-
-});
-
-//Enable or disable focused youtube functionality
+/**
+ * Enable or disable focused youtube functionality
+ */
 FOCUSED_YT_TOGGLE.addEventListener("change", () => {
     let querying = browser.tabs.query({
         url: "*://*.youtube.com/*"
@@ -42,6 +49,13 @@ FOCUSED_YT_TOGGLE.addEventListener("change", () => {
                     command: "extension-enabled"
                 })
             }
+        }, onError);
+
+        let saveOption = browser.storage.local.set({
+            "toggle": FOCUSED_YT_TOGGLE.id
+        });
+        saveOption.then(() => {
+            console.log("YT-FOCUSED: Enabled setting saved!");
         }, onError)
     } else {
         //disable the extension functionality
@@ -51,17 +65,24 @@ FOCUSED_YT_TOGGLE.addEventListener("change", () => {
                     command: "extension-disabled"
                 })
             }
-        }, onError)
+        }, onError);
+
+        let removeOption = browser.storage.local.remove("toggle");
+        removeOption.then(() => {
+            console.log("YT-FOCUSED: Enabled setting removed!");
+        }, onError);
     }
 });
 
-function handleMessage(request, sender, sendResponse) {
-    let markUp = request.InnerHTML;
-    let keyIdentifier = "yt-focused-" + sender.tab.id;
-    sessionStorage.setItem(keyIdentifier, markUp); //LEFT OFF HERE, find a way for the content script to access this data in the sessionStorage
-    sendResponse({
-        response: "Response from background script"
-    });
-}
 
-browser.runtime.onMessage.addListener(handleMessage);
+Array.from(toggleElements).forEach((e) => {
+    e.addEventListener("click", toggleFunction);
+});
+initialize();
+
+browser.runtime.onMessage.addListener((request,sender,sendResponse) => {
+    if (request.message === "CHECK_OPTIONS") {
+        //send a response back to trigger the distraction removal
+        sendResponse({command: "enable-user-options"});
+    }
+});

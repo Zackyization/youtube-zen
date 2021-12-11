@@ -18,7 +18,3 @@
     justify-content: center;
     align-items: center;
 }
-
-#page-manager.ytd-app {
-    height: calc(100vh - 56px);
-}
