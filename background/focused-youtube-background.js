@@ -6,21 +6,32 @@ const YOUTUBE_URL_PATTERN = "*://*.youtube.com/*";
 const filter = {
     urls: [YOUTUBE_URL_PATTERN]
 }
+const executingOnUpdatedScript = browser.tabs.executeScript({
+    file: "/popup/focused-youtube-popup.js",
+    allFrames: true
+});
+
+function onExecuted(result) {
+    console.log("Script executed!");
+}
+
+function onError(error) {
+    console.log(`Error: ${error}`);
+}
 
 
 function handleCreated(tab) {
 
 }
 
+
 function handleUpdated(tabId, changeInfo, tabInfo) {
-    /// LEFT OFF HERE, refer to the onUpdated tab to continue from where you left off
-    //if changeInfo matches to a youtube URL, execute popup script
-    if (changeInfo.url) {
-        
-    }
+    /// LEFT OFF HERE, figure out why the popup script doesn't get executed upon an updated event
+    //execute the pop up script
+    executingOnUpdatedScript.then(onExecuted, onError);
 }
 
-browser.tabs.onUpdated.addListener(handleUpdated);
+browser.tabs.onUpdated.addListener(handleUpdated, filter);
 
 //TODO: Do I need to handle an onCreated event?
-browser.tabs.onCreated.addUpdated(tabCreated);
+// browser.tabs.onCreated.addUpdated(tabCreated);
