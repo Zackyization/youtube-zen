@@ -1,14 +1,12 @@
 //TODO:When a youtube tab loads, load the script in the pop up menu to load the javascript.
-////NOTE: USE THE TABS API TO PULL OFF THE ABOVE TASK, https://developer.mozilla.org/en-US/docs/Mozilla/Add-ons/WebExtensions/API/tabs/onCreated
-//https://developer.mozilla.org/en-US/docs/Mozilla/Add-ons/WebExtensions/API/tabs/onUpdated
 const YOUTUBE_URL_PATTERN = "*://*.youtube.com/*";
 
 const filter = {
-    urls: [YOUTUBE_URL_PATTERN]
-}
-const executingOnUpdatedScript = browser.tabs.executeScript({
+    urls: [YOUTUBE_URL_PATTERN],
+};
+const executingPopupScript = browser.tabs.executeScript({
     file: "/popup/focused-youtube-popup.js",
-    allFrames: true
+    allFrames: true,
 });
 
 function onExecuted(result) {
@@ -19,19 +17,30 @@ function onError(error) {
     console.log(`Error: ${error}`);
 }
 
-
-function handleCreated(tab) {
-
+function handleActivated(activeTab) {
+    //check if tab is in a youtube URL
+    // let checkingUserOptions = browser.runtime.sendMessage({
+    //     message: "ACTIVATE_FUNCTIONS"
+    // });
+    // checkingUserOptions.then(onExecuted, onError)
 }
 
-
 function handleUpdated(tabId, changeInfo, tabInfo) {
-    /// LEFT OFF HERE, figure out why the popup script doesn't get executed upon an updated event
+    // TODO:Figure out why the popup script doesn't get executed upon an updated event
     //execute the pop up script
-    executingOnUpdatedScript.then(onExecuted, onError);
+    executingPopupScript.then(onExecuted, onError);
 }
 
 browser.tabs.onUpdated.addListener(handleUpdated, filter);
-
-//TODO: Do I need to handle an onCreated event?
+browser.tabs.onActivated.addListener(handleActivated);
+//TODO: Make use of the onActivated event
+// https://developer.mozilla.org/en-US/docs/Mozilla/Add-ons/WebExtensions/API/tabs/onActivated
 // browser.tabs.onCreated.addUpdated(tabCreated);
+
+
+browser.runtime.onMessage.addListener((request,sender,sendResponse) => {
+    if (request.message === "CHECK_OPTIONS" || request.message === "ACTIVATE_FUNCTIONS") {
+        //send a response back to trigger the distraction removal
+        sendResponse({command: "enable-user-options"});
+    }
+});

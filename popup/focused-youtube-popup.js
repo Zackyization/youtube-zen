@@ -79,10 +79,3 @@ Array.from(toggleElements).forEach((e) => {
     e.addEventListener("click", toggleFunction);
 });
 initialize();
-
-browser.runtime.onMessage.addListener((request,sender,sendResponse) => {
-    if (request.message === "CHECK_OPTIONS") {
-        //send a response back to trigger the distraction removal
-        sendResponse({command: "enable-user-options"});
-    }
-});
