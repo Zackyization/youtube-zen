@@ -5,6 +5,8 @@ const YOUTUBE_PAGE_MANAGER = document.getElementById("page-manager");
     console.log(`Message from the background script:  ${message.command}`);
     if (message.command === "enable-user-options") {
       removeYoutubeBrowsingArea();
+    } else if (message.command === "disable-user-options") {
+      resetYoutubeBrowsingArea();
     }
   }
 
@@ -34,7 +36,6 @@ const YOUTUBE_PAGE_MANAGER = document.getElementById("page-manager");
   /**
    * Check for user options and make the respective actions on the website
    */
-
   function checkUserOptions(e) {
     //send a messsage to background script, find out if there are any options toggled from the storage
     console.log("Check User Options function loaded!");
@@ -58,6 +59,7 @@ const YOUTUBE_PAGE_MANAGER = document.getElementById("page-manager");
     }
   });
 
+  ///LEFT OFF HERE, BUG: Fix issue where the content script only executes upon clicking the popup button, AGAIN
   window.addEventListener("load", checkUserOptions);
   // console.log("FOR DEBUGGING: content script loaded!");
 })();
