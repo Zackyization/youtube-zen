@@ -6,6 +6,7 @@ const executingPopupScript = browser.tabs.executeScript({
     file: "/popup/focused-youtube-popup.js",
     allFrames: true,
 });
+var userChoices;
 
 function onExecuted(result) {
     console.log("Script executed!");
@@ -24,6 +25,14 @@ function handleUpdated(tabId, changeInfo, tabInfo) {
     // executingPopupScript.then(onExecuted, onError);
 }
 
+function getUserChoices() {
+    let gettingUserChoices = browser.storage.local.get();
+    gettingUserChoices.then((results) => {
+        userChoices = Object.keys(results);
+        return Promise.resolve("done");
+    }, onError);
+}
+
 //TODO: Evaluate whether you still need these 2 functions
 // browser.tabs.onUpdated.addListener(handleUpdated, filter);
 // browser.tabs.onActivated.addListener(handleActivated);
@@ -31,22 +40,21 @@ function handleUpdated(tabId, changeInfo, tabInfo) {
 
 browser.runtime.onMessage.addListener((request, sender, sendResponse) => {
     if (request.message === "CHECK_OPTIONS") {
-        //send a response back to trigger the distraction removal
         //based on local storage result, activate or disbale the extention accordingly
-        let gettingUserChoices = browser.storage.local.get(null);
-        gettingUserChoices.then((results) => {
-            let options = Object.keys(results);
-            if (options.length !== 0) {
-                //enable the extension
-                sendResponse({
-                    command: "enable-user-options"
-                });
-            } else {
-                //disable the extension
-                sendResponse({
-                    command: "disable-user-options"
-                });
-            }
-        }, onError);
+
+        ///LEFT OFF HERE, NOTE: this link should help https://developer.mozilla.org/en-US/docs/Mozilla/Add-ons/WebExtensions/API/runtime/onMessage#sending_an_asynchronous_response_using_sendresponse
+        getUserChoices();
+        console.log(userChoices);
+        if (userChoices !== 0) {
+            //enable the extension
+            sendResponse({
+                command: "enable-user-options"
+            });
+        } else {
+            //disable the extension
+            sendResponse({
+                command: "disable-user-options"
+            });
+        }
     }
 });
