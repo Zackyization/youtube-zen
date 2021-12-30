@@ -51,10 +51,10 @@ FOCUSED_YT_TOGGLE.addEventListener("change", () => {
             }
         }, onError);
 
-        let saveOption = browser.storage.local.set({
-            "toggle": FOCUSED_YT_TOGGLE.id
+        let savingOption = browser.storage.local.set({
+            "extension-toggle": FOCUSED_YT_TOGGLE.id
         });
-        saveOption.then(() => {
+        savingOption.then(() => {
             console.log("YT-FOCUSED: Enabled setting saved!");
         }, onError)
     } else {
@@ -67,8 +67,8 @@ FOCUSED_YT_TOGGLE.addEventListener("change", () => {
             }
         }, onError);
 
-        let removeOption = browser.storage.local.remove("toggle");
-        removeOption.then(() => {
+        let removingOption = browser.storage.local.remove("extension-toggle");
+        removingOption.then(() => {
             console.log("YT-FOCUSED: Enabled setting removed!");
         }, onError);
     }

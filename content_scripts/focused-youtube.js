@@ -59,7 +59,6 @@ const YOUTUBE_PAGE_MANAGER = document.getElementById("page-manager");
     }
   });
 
-  //BUG: Fix issue where the content script only executes upon clicking the popup button, AGAIN
   window.addEventListener("load", checkUserOptions);
   // console.log("FOR DEBUGGING: content script loaded!");
 })();

@@ -16,15 +16,6 @@ function onError(error) {
     console.log(`Error: ${error}`);
 }
 
-function handleActivated(activeTab) {
-    //TODO: onActivated event to handle youtube tabs not activated with the functionality yet
-}
-
-function handleUpdated(tabId, changeInfo, tabInfo) {
-    //execute the pop up script
-    // executingPopupScript.then(onExecuted, onError);
-}
-
 function getUserChoices() {
     let gettingUserChoices = browser.storage.local.get();
     gettingUserChoices.then((results) => {
@@ -33,6 +24,15 @@ function getUserChoices() {
     }, onError);
 }
 
+// function handleActivated(activeTab) {
+//     //TODO: onActivated event to handle youtube tabs not activated with the functionality yet
+// }
+
+// function handleUpdated(tabId, changeInfo, tabInfo) {
+//     //execute the pop up script
+//     // executingPopupScript.then(onExecuted, onError);
+// }
+
 //TODO: Evaluate whether you still need these 2 functions
 // browser.tabs.onUpdated.addListener(handleUpdated, filter);
 // browser.tabs.onActivated.addListener(handleActivated);
@@ -40,21 +40,18 @@ function getUserChoices() {
 
 browser.runtime.onMessage.addListener((request, sender, sendResponse) => {
     if (request.message === "CHECK_OPTIONS") {
-        //based on local storage result, activate or disbale the extention accordingly
-
-        ///LEFT OFF HERE, NOTE: this link should help https://developer.mozilla.org/en-US/docs/Mozilla/Add-ons/WebExtensions/API/runtime/onMessage#sending_an_asynchronous_response_using_sendresponse
+        //based on local storage result, activate or disable the extension accordingly
         getUserChoices();
         console.log(userChoices);
-        if (userChoices !== 0) {
-            //enable the extension
-            sendResponse({
+        if (userChoices.length !== 0) {
+            return Promise.resolve({
                 command: "enable-user-options"
-            });
+            })
         } else {
             //disable the extension
-            sendResponse({
+            return Promise.resolve({
                 command: "disable-user-options"
-            });
+            })
         }
     }
 });
