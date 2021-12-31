@@ -3,9 +3,9 @@ const YOUTUBE_PAGE_MANAGER = document.getElementById("page-manager");
 (function () {
   function handleResponse(message) {
     console.log(`Message from the background script:  ${message.command}`);
-    if (message.command === "enable-user-options") {
+    if (message.command === "extension-enabled") {
       removeYoutubeBrowsingArea();
-    } else if (message.command === "disable-user-options") {
+    } else if (message.command === "extension-disabled") {
       resetYoutubeBrowsingArea();
     }
   }

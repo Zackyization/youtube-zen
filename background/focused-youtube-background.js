@@ -20,7 +20,6 @@ function getUserChoices() {
     let gettingUserChoices = browser.storage.local.get();
     gettingUserChoices.then((results) => {
         userChoices = Object.keys(results);
-        return Promise.resolve("done");
     }, onError);
 }
 
@@ -42,15 +41,14 @@ browser.runtime.onMessage.addListener((request, sender, sendResponse) => {
     if (request.message === "CHECK_OPTIONS") {
         //based on local storage result, activate or disable the extension accordingly
         getUserChoices();
-        console.log(userChoices);
         if (userChoices.length !== 0) {
             return Promise.resolve({
-                command: "enable-user-options"
+                command: "extension-enabled"
             })
         } else {
             //disable the extension
             return Promise.resolve({
-                command: "disable-user-options"
+                command: "extension-disabled"
             })
         }
     }
