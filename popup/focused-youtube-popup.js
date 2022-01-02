@@ -40,8 +40,20 @@ FOCUSED_YT_TOGGLE.addEventListener("change", () => {
     let querying = browser.tabs.query({
         url: "*://*.youtube.com/*"
     });
+    ///LEFT OFF HERE, find a way to implement promise chaining to fix the double refresh bug
+    let tabs = querying.then((results) => results.json()).then((tabs)=> {
+        console.log("Results: " + tabs);
+    });
+    
 
     if (FOCUSED_YT_TOGGLE.checked) {
+        let savingOption = browser.storage.local.set({
+            "extension-toggle": FOCUSED_YT_TOGGLE.id
+        });
+        savingOption.then(() => {
+            console.log("YT-FOCUSED: Enabled setting saved!");
+        }, onError)
+
         //enable the extension functionality
         querying.then((tabs) => {
             for (let tab of tabs) {
@@ -50,14 +62,12 @@ FOCUSED_YT_TOGGLE.addEventListener("change", () => {
                 })
             }
         }, onError);
-
-        let savingOption = browser.storage.local.set({
-            "extension-toggle": FOCUSED_YT_TOGGLE.id
-        });
-        savingOption.then(() => {
-            console.log("YT-FOCUSED: Enabled setting saved!");
-        }, onError)
     } else {
+        let removingOption = browser.storage.local.remove("extension-toggle");
+        removingOption.then(() => {
+            console.log("YT-FOCUSED: Enabled setting removed!");
+        }, onError);
+
         //disable the extension functionality
         querying.then((tabs) => {
             for (let tab of tabs) {
@@ -66,12 +76,15 @@ FOCUSED_YT_TOGGLE.addEventListener("change", () => {
                 })
             }
         }, onError);
-
-        let removingOption = browser.storage.local.remove("extension-toggle");
-        removingOption.then(() => {
-            console.log("YT-FOCUSED: Enabled setting removed!");
-        }, onError);
     }
+
+    // let debugGettingtAllLocalStorage = browser.storage.local.get();
+    // let debuggingVariable;
+
+    // debugGettingtAllLocalStorage.then((results) => {
+    //     debuggingVariable = results;
+    // }, onError)
+    // console.log("Debugging Var: " + debuggingVariable);
 });
 
 
