@@ -33,58 +33,68 @@ function initialize() {
     }, onError);
 }
 
+function queryYoutubeTabs() {
+    return browser.tabs.query({
+        url: "*://*.youtube.com/*"
+    });
+}
+
+/**
+ * Save an option in into the browser local StorageArea
+ */
+function saveStorageOption(option) {
+    switch (option) {
+        case "extension-toggle":
+            return browser.storage.local.set({
+                "extension-toggle" : FOCUSED_YT_TOGGLE.id
+            });
+
+            //TODO: Implement the other options into this switch statement
+    }
+}
+
+/**
+ * Remove an option in into the browser local StorageArea
+ */
+function removeStorageOption(option) {
+    return browser.storage.local.remove(option);
+}
+
 /**
  * Enable or disable focused youtube functionality
  */
 FOCUSED_YT_TOGGLE.addEventListener("change", () => {
-    let querying = browser.tabs.query({
-        url: "*://*.youtube.com/*"
-    });
-    ///LEFT OFF HERE, find a way to implement promise chaining to fix the double refresh bug
-    let tabs = querying.then((results) => results.json()).then((tabs)=> {
-        console.log("Results: " + tabs);
-    });
-    
+    let querying = queryYoutubeTabs();
+    let keyName = "extension-toggle";
 
+    //TODO: Find a way to implement promise chaining to fix the double refresh bug
     if (FOCUSED_YT_TOGGLE.checked) {
-        let savingOption = browser.storage.local.set({
-            "extension-toggle": FOCUSED_YT_TOGGLE.id
-        });
+        //save then query
+        let savingOption = saveStorageOption(keyName);
         savingOption.then(() => {
-            console.log("YT-FOCUSED: Enabled setting saved!");
-        }, onError)
-
-        //enable the extension functionality
-        querying.then((tabs) => {
-            for (let tab of tabs) {
-                browser.tabs.sendMessage(tab.id, {
-                    command: "extension-enabled"
-                })
-            }
-        }, onError);
+                return querying;
+            })
+            .then((tabs) => {
+                for (let tab of tabs) {
+                    browser.tabs.sendMessage(tab.id, {
+                        command: "extension-enabled"
+                    })
+                }
+            }, onError);
     } else {
-        let removingOption = browser.storage.local.remove("extension-toggle");
+        let removingOption = removeStorageOption(keyName);
         removingOption.then(() => {
-            console.log("YT-FOCUSED: Enabled setting removed!");
-        }, onError);
-
-        //disable the extension functionality
-        querying.then((tabs) => {
-            for (let tab of tabs) {
-                browser.tabs.sendMessage(tab.id, {
-                    command: "extension-disabled"
-                })
-            }
-        }, onError);
+                return querying;
+            })
+            .then((tabs) => {
+                //disable the extension functionality
+                for (let tab of tabs) {
+                    browser.tabs.sendMessage(tab.id, {
+                        command: "extension-disabled"
+                    })
+                }
+            });
     }
-
-    // let debugGettingtAllLocalStorage = browser.storage.local.get();
-    // let debuggingVariable;
-
-    // debugGettingtAllLocalStorage.then((results) => {
-    //     debuggingVariable = results;
-    // }, onError)
-    // console.log("Debugging Var: " + debuggingVariable);
 });
 
 

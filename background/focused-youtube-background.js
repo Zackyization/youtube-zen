@@ -6,7 +6,7 @@ const executingPopupScript = browser.tabs.executeScript({
     file: "/popup/focused-youtube-popup.js",
     allFrames: true,
 });
-var userChoices;
+// var userChoices; TODO: Delete this line when you got the double refresh bug sorted out.
 
 function onExecuted(result) {
     console.log("Script executed!");
@@ -17,10 +17,11 @@ function onError(error) {
 }
 
 function getUserChoices() {
-    let gettingUserChoices = browser.storage.local.get();
-    gettingUserChoices.then((results) => {
-        userChoices = Object.keys(results);
-    }, onError);
+    return browser.storage.local.get();
+    // let gettingUserChoices = browser.storage.local.get();
+    // gettingUserChoices.then((results) => {
+    //     userChoices = Object.keys(results);
+    // }, onError);
 }
 
 // function handleActivated(activeTab) {
@@ -38,18 +39,36 @@ function getUserChoices() {
 
 
 browser.runtime.onMessage.addListener((request, sender, sendResponse) => {
-    if (request.message === "CHECK_OPTIONS") {
-        //based on local storage result, activate or disable the extension accordingly
-        getUserChoices();
-        if (userChoices.length !== 0) {
-            return Promise.resolve({
-                command: "extension-enabled"
+    let gettingUserChoices = getUserChoices();
+    switch (request.message) {
+        case "CHECK_OPTIONS":
+            console.log("condition hit!");
+            gettingUserChoices.then((results) => {
+                return Object.keys(results);
+            }).then((keys) => {
+                /// LEFT OFF HERE, TODO: promise chain the functions by getting userchoices, checking the array length of the user choices then finally sending a messsage back to the content script
+                if (keys.length !== 0) {
+                    //enable extension
+                    // sendResponse({
+                    //     command: "extension-enabled"
+                    // });
+                    return Promise.resolve({
+                        command: "extension-enabled"
+                    });
+                } else {
+                    //disable extension
+                    // sendResponse({
+                    //     command: "extension-disabled"
+                    // });
+                    return Promise.resolve({
+                        command: "extension-disabled"
+                    });
+                }
             })
-        } else {
-            //disable the extension
-            return Promise.resolve({
-                command: "extension-disabled"
-            })
-        }
+            break;
+
+        default:
+            console.log("Message received from content script: " + request.message);
+            break;
     }
-});
+}, onError);

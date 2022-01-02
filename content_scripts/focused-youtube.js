@@ -38,11 +38,11 @@ const YOUTUBE_PAGE_MANAGER = document.getElementById("page-manager");
    */
   function checkUserOptions(e) {
     //send a messsage to background script, find out if there are any options toggled from the storage
-    console.log("Check User Options function loaded!");
     let checkingUserOptions = browser.runtime.sendMessage({
       message: "CHECK_OPTIONS",
     });
     checkingUserOptions.then(handleResponse, handleError);
+    console.log("Check User Options function loaded!");
   }
 
   /**
