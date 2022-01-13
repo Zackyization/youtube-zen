@@ -13,7 +13,7 @@ let toggleFunction = (e) => {
 }
 
 function onError(error) {
-    console.log(`Error: ${error}`);
+    console.error(`${error}`);
 }
 
 // TODO: Implementation of storage.sync in the future, use storage.local for now

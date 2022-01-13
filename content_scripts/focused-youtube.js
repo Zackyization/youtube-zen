@@ -2,7 +2,7 @@ const YOUTUBE_PAGE_MANAGER = document.getElementById("page-manager");
 
 (function () {
   function handleResponse(message) {
-    console.log(`Message from the background script:  ${message.command}`);
+    // FOR DEBUGGING: console.log(`Message from the background script:  ${message.command}`);
     if (message.command === "extension-enabled") {
       removeYoutubeBrowsingArea();
     } else if (message.command === "extension-disabled") {
@@ -42,7 +42,6 @@ const YOUTUBE_PAGE_MANAGER = document.getElementById("page-manager");
       message: "CHECK_OPTIONS",
     });
     checkingUserOptions.then(handleResponse, handleError);
-    console.log("Check User Options function loaded!");
   }
 
   /**
