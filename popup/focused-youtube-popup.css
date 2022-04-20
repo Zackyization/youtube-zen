@@ -71,3 +71,10 @@ input.switch:empty~span:after {
     background-color: #1565c0;
     border-color: #1565c0;
 }
+
+span[for="focused-toggle"] {
+    /* TODO: Fix the flexbox issue in which the psuedoe elements are not able to be space-betweened */
+}
+
+
+/* NEW TODO: Make a <span> element function similar to the span psuedoe elements that allow it to be toggled on/off for the material switch */
