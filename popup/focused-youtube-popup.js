@@ -12,11 +12,20 @@ let toggleFunction = (e) => {
     toggleCheckbox.dispatchEvent(event);
 }
 
-function onError(error) {
+function handleError(error) {
     console.error(`${error}`);
 }
 
-// TODO: Implementation of storage.sync in the future, use storage.local for now
+function handleResponse(message) {
+    //TODO: Write code to make the pop up react to the messages?
+    if (message.response === "save-success") {
+        console.log("SAVE SUCCESSFUL!");
+    } else if (message.response === "remove-success") {
+        console.log("REMOVE SUCCESSFUL!");
+    }
+}
+
+
 function initialize() {
     /**
      * Toggles the checkboxes accordingly based on user's last saved settings
@@ -30,7 +39,7 @@ function initialize() {
             let event = new Event("change");
             toggle.dispatchEvent(event);
         }
-    }, onError);
+    }, handleError);
 }
 
 function queryYoutubeTabs() {
@@ -43,57 +52,44 @@ function queryYoutubeTabs() {
  * Save an option in into the browser local StorageArea
  */
 function saveStorageOption(option) {
-    switch (option) {
-        case "extension-toggle":
-            return browser.storage.local.set({
-                "extension-toggle" : FOCUSED_YT_TOGGLE.id
-            });
-
-            //TODO: Implement the other options into this switch statement
-    }
+    let sendingSaveCommand = browser.runtime.sendMessage({
+        message: {
+            command: "SAVE_OPTION",
+            content: {
+                keyName: option,
+                inputID: FOCUSED_YT_TOGGLE.id
+            }
+        }
+    });
+    sendingSaveCommand.then(handleResponse, handleError);
 }
 
 /**
  * Remove an option in into the browser local StorageArea
  */
 function removeStorageOption(option) {
-    return browser.storage.local.remove(option);
+    //send a signal to the background script
+    let sendingRemoveCommand = browser.runtime.sendMessage({
+        message: {
+            command: "REMOVE_OPTION",
+            content: option
+        }
+    });
+    sendingRemoveCommand.then(handleResponse, handleError);
 }
 
 /**
  * Enable or disable focused youtube functionality
  */
 FOCUSED_YT_TOGGLE.addEventListener("change", () => {
-    let querying = queryYoutubeTabs();
     let keyName = "extension-toggle";
 
-    //TODO: Find a way to implement promise chaining to fix the double refresh bug
     if (FOCUSED_YT_TOGGLE.checked) {
-        //save then query
-        let savingOption = saveStorageOption(keyName);
-        savingOption.then(() => {
-                return querying;
-            })
-            .then((tabs) => {
-                for (let tab of tabs) {
-                    browser.tabs.sendMessage(tab.id, {
-                        command: "extension-enabled"
-                    })
-                }
-            }, onError);
+        //extension enabled
+        saveStorageOption(keyName);
     } else {
-        let removingOption = removeStorageOption(keyName);
-        removingOption.then(() => {
-                return querying;
-            })
-            .then((tabs) => {
-                //disable the extension functionality
-                for (let tab of tabs) {
-                    browser.tabs.sendMessage(tab.id, {
-                        command: "extension-disabled"
-                    })
-                }
-            });
+        //extension disabled 
+        removeStorageOption(keyName);
     }
 });
 

@@ -19,7 +19,7 @@
         "matches": ["*://*.youtube.com/*"],
         "js": ["content_scripts/focused-youtube.js"],
         "css": ["css/youtube-home.css"],
-        "run_at": "document_start",
+        "run_at": "document_idle",
         "all_frames": true
     }],
 
