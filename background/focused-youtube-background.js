@@ -1,14 +1,10 @@
 const YOUTUBE_URL_PATTERN = "*://*.youtube.com/*";
+const YOUTUBE_WATCH_URL_PATTERN = "*://*.youtube.com/watch*"
 const filter = {
-    urls: [YOUTUBE_URL_PATTERN],
+    urls: [YOUTUBE_URL_PATTERN,YOUTUBE_WATCH_URL_PATTERN],
 };
-const executingPopupScript = browser.tabs.executeScript({
-    file: "/popup/focused-youtube-popup.js",
-    allFrames: true,
-});
 
 let userChoices = [];
-
 
 function onError(error) {
     console.error(`${error}`);
@@ -37,6 +33,15 @@ function queryYoutubeTabs() {
     });
 }
 
+function handleUpdated(tabId, changeInfo, tabInfo) {
+    //check whether url is home page or watch page
+    let executing = browser.tabs.executeScript(tabId, {
+        code: "checkUserOptions();"
+    });
+    executing.then(() => {
+        console.log("Updated executed!", handleError)
+    });
+}
 
 function processRequest(request) {
     if (request.message === "CHECK_OPTIONS") {
@@ -99,3 +104,4 @@ function processRequest(request) {
 }
 
 browser.runtime.onMessage.addListener(processRequest);
+browser.tabs.onUpdated.addListener(handleUpdated, filter);
