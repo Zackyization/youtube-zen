@@ -35,9 +35,6 @@ function removeYoutubeBrowsingArea() {
     }
 
   } else if (window.location.pathname == '/watch') {
-    //BUG: CURRENT: On extension enabled, when browsing from the home page to a video page, recommended video section does not get removed
-    // TODO: Implement browser.tabs.onUpdated and carry out the respective code accordingly
-
     let recommendedVideos = document.getElementById("secondary-inner");
     try {
       recommendedVideos.style.display = "none";
