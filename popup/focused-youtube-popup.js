@@ -3,6 +3,7 @@ const FOCUSED_YT_TOGGLE = document.getElementById("focused-toggle");
 /**
  * Toggle material toggle span element switch
  */
+//TODO: CURRENT: Get multiple toggle option saving to work
 let toggleElements = document.getElementsByClassName("toggle");
 let toggleFunction = (e) => {
     //search siblings for the checkbox input, toggle it upon click

@@ -35,13 +35,29 @@ function removeYoutubeBrowsingArea() {
     }
 
   } else if (window.location.pathname == '/watch') {
+    // remove end of video recommendations (".ytp-endscreen-content")
+    let ytEndScreen = document.getElementsByClassName("ytp-endscreen-content")[0];
+
+    // remove recommended video section
     let recommendedVideos = document.getElementById("secondary-inner");
+
+    //remove floating video suggestions
+    let ytHoveringRecommended = document.getElementsByClassName("ytp-ce-element");
+    Array.from(ytHoveringRecommended).forEach((recommendation) => {
+      recommendation.remove();
+    });
+
+    //remove comments
+    let comments = document.getElementById("comments");
+    comments.remove();
+
+    // remove distractions
     try {
+      ytEndScreen.style.display = "none";
       recommendedVideos.style.display = "none";
     } catch (error) {
       //do nothing
     }
-
   }
 }
 
@@ -49,7 +65,6 @@ function removeYoutubeBrowsingArea() {
  * Visual changes are made on youtube page(s) to indicate that extension is disabled
  */
 function resetYoutubeBrowsingArea() {
-  mutationObserver.disconnect();
   let homeMessage = document.getElementById("yt-focused-home-message");
   try {
     homeMessage.innerHTML = "Disabled! Refresh to see changes take effect.";
@@ -75,8 +90,7 @@ function checkUserOptions() {
  */
 browser.runtime.onMessage.addListener((message) => {
   if (
-    message.command === "extension-enabled" ||
-    message.command === "enable-user-options"
+    message.command === "extension-enabled"
   ) {
     removeYoutubeBrowsingArea();
   } else if (message.command === "extension-disabled") {
