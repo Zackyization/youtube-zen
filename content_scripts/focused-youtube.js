@@ -86,9 +86,8 @@ function removeAllDistractions() {
 
 
 /**
- * TODO: CURRENT: Remove/reset specific distractions specified by the parameter
+ * Remove/reset specific distractions specified by the parameter
  */
-
 function removeDistraction(option) {
   switch (option) {
     case "home":
@@ -101,8 +100,7 @@ function removeDistraction(option) {
   }
 }
 
-
-/**
+/*****
  * NOTE: Distractions are not reset individually as the user has to refresh to see the changes take place
  */
 
@@ -131,7 +129,7 @@ function checkUserOptions() {
 }
 
 /**
- * Listen for messages from the background script.
+ * Listens for enable/disable messages from the background script.
  */
 browser.runtime.onMessage.addListener((message) => {
   switch (message.command) {
@@ -140,6 +138,7 @@ browser.runtime.onMessage.addListener((message) => {
       break;
 
     case "focused-disabled":
+    case "home-disabled":
       resetHomeDistractions();
       break;
 

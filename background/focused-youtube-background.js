@@ -41,7 +41,7 @@ function queryYoutubeTabs() {
 function handleUpdated(tabId, changeInfo, tabInfo) {
     //check whether url is home page or watch page
     let executing = browser.tabs.executeScript(tabId, {
-        code: "checkUserOptions();"
+        code: "checkUserOptions()"
     });
     executing.then(() => {
         console.log("Updated executed!");
