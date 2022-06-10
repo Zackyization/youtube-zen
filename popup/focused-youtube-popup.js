@@ -1,9 +1,9 @@
-const FOCUSED_YT_TOGGLE = document.getElementById("focused-toggle");
+const TOGGLES = document.querySelectorAll('.option-toggle');
 
 /**
  * Toggle material toggle span element switch
  */
-//TODO: CURRENT: Get multiple toggle option saving to work
+/// TODO: Make it so that when a custom toggle is switched to ON, the focused-only switch turns off
 let toggleElements = document.getElementsByClassName("toggle");
 let toggleFunction = (e) => {
     //search siblings for the checkbox input, toggle it upon click
@@ -25,7 +25,6 @@ function handleResponse(message) {
         console.log("REMOVE SUCCESSFUL!");
     }
 }
-
 
 function initialize() {
     /**
@@ -52,13 +51,25 @@ function queryYoutubeTabs() {
 /**
  * Save an option in into the browser local StorageArea
  */
-function saveStorageOption(option) {
-    let sendingSaveCommand = browser.runtime.sendMessage({
+function saveStorageOption(option, el_ID) {
+    let sendingSaveCommand;
+    let cmd;
+    switch (option) {
+        case "focused-toggle":
+            cmd = "FOCUSED_ENABLE";
+            break;
+        
+        case "home-toggle":
+            cmd = "HOME_ENABLE";
+            break;
+    }
+
+    sendingSaveCommand = browser.runtime.sendMessage({
         message: {
-            command: "SAVE_OPTION",
+            command: cmd,
             content: {
                 keyName: option,
-                inputID: FOCUSED_YT_TOGGLE.id
+                inputID: el_ID
             }
         }
     });
@@ -70,30 +81,38 @@ function saveStorageOption(option) {
  */
 function removeStorageOption(option) {
     //send a signal to the background script
-    let sendingRemoveCommand = browser.runtime.sendMessage({
+    let sendingRemoveCommand;
+    let cmd;
+
+    switch (option) {
+        case "focused-toggle":
+            cmd = "FOCUSED_DISABLE";
+            break;
+        
+        case "home-toggle":
+            cmd = "HOME_DISABLE";
+            break;
+    }
+
+    sendingRemoveCommand = browser.runtime.sendMessage({
         message: {
-            command: "REMOVE_OPTION",
+            command: cmd,
             content: option
         }
     });
     sendingRemoveCommand.then(handleResponse, handleError);
 }
 
-/**
- * Enable or disable focused youtube functionality
- */
-FOCUSED_YT_TOGGLE.addEventListener("change", () => {
-    let keyName = "extension-toggle";
-
-    if (FOCUSED_YT_TOGGLE.checked) {
-        //extension enabled
-        saveStorageOption(keyName);
+TOGGLES.forEach(el => el.addEventListener('change', event => {
+    let keyName = el.name;
+    if (el.checked) {
+        //enable
+        saveStorageOption(keyName, el.id);
     } else {
-        //extension disabled 
+        //disable
         removeStorageOption(keyName);
     }
-});
-
+}));
 
 Array.from(toggleElements).forEach((e) => {
     e.addEventListener("click", toggleFunction);

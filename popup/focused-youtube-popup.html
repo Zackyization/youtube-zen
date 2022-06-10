@@ -8,15 +8,10 @@
 
 <body>
     <main role="main">
-        <!-- TODO: Markup for the focused youtube pop up to let user enable or disable the extension, or configure what they want out of the extension -->
-        <!-- What can the user configure?
-    * TODO: Which aspects of youtube they want removed
-    * TODO: Decide on the options that the user can remove from youtube, research on existing solutions -->
         <h1>Focused Youtube Menu</h1>
         <form role="form">
-            <!-- TODO: Make the main "enable" button similar to that of uBlock Origin, a big illustration that can toggle between on/off -->
             <div role="checkbox" class="material-toggle">
-                <input type="checkbox" id="focused-toggle" name="focused-toggle" class="switch" />
+                <input type="checkbox" id="focused-toggle" name="focused-toggle" class="switch option-toggle" />
                 <label for="focused-toggle">
                     Toggle Focused Youtube
                 </label>
@@ -24,9 +19,9 @@
                 </span>
             </div>
             <div role="checkbox" class="material-toggle">
-                <input type="checkbox" id="home-only" name="focused-toggle" class="switch" />
-                <label for="home-only">
-                    Option &#35;2
+                <input type="checkbox" id="home-only-toggle" name="home-toggle" class="switch option-toggle" />
+                <label for="home-toggle">
+                    Home Page
                 </label>
                 <span class="toggle">
                 </span>

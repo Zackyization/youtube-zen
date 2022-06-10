@@ -1,7 +1,7 @@
 const YOUTUBE_URL_PATTERN = "*://*.youtube.com/*";
 const YOUTUBE_WATCH_URL_PATTERN = "*://*.youtube.com/watch*"
 const filter = {
-    urls: [YOUTUBE_URL_PATTERN,YOUTUBE_WATCH_URL_PATTERN],
+    urls: [YOUTUBE_URL_PATTERN, YOUTUBE_WATCH_URL_PATTERN],
 };
 
 let userChoices = [];
@@ -20,9 +20,14 @@ function removeStorageOption(request) {
 
 function saveStorageOption(request) {
     switch (request.keyName) {
-        case "extension-toggle":
+        case "focused-toggle":
             return browser.storage.local.set({
-                "extension-toggle": request.inputID
+                "focused-toggle": request.inputID
+            });
+
+        case "home-toggle":
+            return browser.storage.local.set({
+                "home-toggle": request.inputID
             });
     }
 }
@@ -39,67 +44,113 @@ function handleUpdated(tabId, changeInfo, tabInfo) {
         code: "checkUserOptions();"
     });
     executing.then(() => {
-        console.log("Updated executed!", handleError)
-    });
+        console.log("Updated executed!");
+    }, handleError);
 }
 
 function processRequest(request) {
+    let querying = queryYoutubeTabs();
+
     if (request.message === "CHECK_OPTIONS") {
-        return getUserChoices()
+        let tabs;
+        querying.then((result) => {
+                tabs = result;
+                return getUserChoices();
+            }, onError)
             .then((results) => {
                 return Object.keys(results);
-            })
-            .then((keys) => {
-                if (keys.length !== 0) {
-                    return Promise.resolve({
-                        command: "extension-enabled"
-                    });
-                } else {
-                    return Promise.resolve({
-                        command: "extension-disabled"
-                    });
-                }
-            });
-    } else if (request.message.command === "SAVE_OPTION") {
-        //enabling the extension
-        let querying = queryYoutubeTabs();
-        let option = request.message.content;
-        return saveStorageOption(option)
-            .then(() => {
-                return querying
             }, onError)
-            .then((tabs) => {
-                for (let tab of tabs) {
-                    browser.tabs.sendMessage(tab.id, {
-                        command: "extension-enabled"
+            .then((enabledOptions) => {
+                let cmd;
+                enabledOptions.forEach(option => {
+                    switch (option) {
+                        case "focused-toggle":
+                            cmd = "focused-enabled"
+                            break;
+
+                        case "home-toggle":
+                            cmd = "home-enabled"
+                            break;
+
+                        default:
+                            cmd = "focused-disabled"
+                            break;
+                    }
+
+                    for (let tab of tabs) {
+                        browser.tabs.sendMessage(tab.id, {
+                            command: cmd
+                        });
+                    }
+
+                    return Promise.resolve({
+                        command: "check-successful"
                     });
-                }
-            }, onError)
-            .then(() => {
-                return Promise.resolve({
-                    response: "save-success"
                 });
             }, onError);
-    } else if (request.message.command === "REMOVE_OPTION") {
-        //disabling the extension
-        let querying = queryYoutubeTabs();
+    } else {
+        let requestMsg = request.message.command;
         let option = request.message.content;
-        return removeStorageOption(option)
-            .then(() => {
-                return querying
-            }, onError)
-            .then((tabs) => {
-                for (let tab of tabs) {
-                    browser.tabs.sendMessage(tab.id, {
-                        command: "extension-disabled"
+        let cmd;
+
+        if (requestMsg === "FOCUSED_ENABLE" ||
+            requestMsg === "HOME_ENABLE") {
+            //requests that enable
+            switch (requestMsg) {
+                case "FOCUSED_ENABLE":
+                    cmd = "focused-enabled";
+                    break;
+
+                case "HOME_ENABLE":
+                    cmd = "home-enabled";
+                    break;
+            }
+
+            return saveStorageOption(option)
+                .then(() => {
+                    return querying
+                }, onError)
+                .then((tabs) => {
+                    for (let tab of tabs) {
+                        browser.tabs.sendMessage(tab.id, {
+                            command: cmd
+                        });
+                    }
+                }, onError)
+                .then(() => {
+                    return Promise.resolve({
+                        response: "save-success"
                     });
-                }
-            }, onError)
-            .then(() => {
-                return Promise.resolve({
-                    response: "remove-success"
-                });
-            }, onError);
+                }, onError);
+        } else {
+            //requests that disable
+            switch (requestMsg) {
+                case "FOCUSED_DISABLE":
+                    cmd = "focused-disabled"
+                    break;
+
+                case "HOME_DISABLE":
+                    cmd = "home-disabled"
+                    break;
+            }
+
+            return removeStorageOption(option)
+                .then(() => {
+                    return querying;
+                }, onError)
+                .then((tabs) => {
+                    for (let tab of tabs) {
+                        browser.tabs.sendMessage(tab.id, {
+                            command: cmd
+                        });
+                    }
+                }, onError)
+                .then(() => {
+                    return Promise.resolve({
+                        response: "remove-success"
+                    });
+                }, onError);
+        }
     }
 }
 
