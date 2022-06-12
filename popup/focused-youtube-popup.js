@@ -88,7 +88,7 @@ function saveStorageOption(option, el_ID) {
             break;
 
         case "comments-toggle":
-            cmd ="COMMENTS_ENABLE";
+            cmd = "COMMENTS_ENABLE";
             break;
 
         case "suggestions-toggle":

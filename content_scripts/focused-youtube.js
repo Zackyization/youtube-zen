@@ -39,7 +39,11 @@ function removeHomePageDistractions() {
  */
 function removeVideoComments() {
   let comments = document.getElementById("comments");
-  comments.remove();
+  try {
+    comments.remove();
+  } catch (error) {
+    //do nothing
+  }
 }
 
 /**
@@ -68,7 +72,11 @@ function removeSuggestedVideos() {
   //NOTE: Similar to the problem described at the bottom of this file, a delay is used to guarantee removal of the element.
   setTimeout(function () {
     let recommendedVideos = document.getElementById("secondary-inner");
-    recommendedVideos.remove();
+    try {
+      recommendedVideos.remove();
+    } catch (error) {
+      //do nothing
+    }
   }, 1000);
 }
 
@@ -153,7 +161,7 @@ browser.runtime.onMessage.addListener((message) => {
     case "comments-enabled":
       removeDistraction("comments");
       break;
-    
+
     case "suggestions-enabled":
       removeDistraction("suggestions");
       break;

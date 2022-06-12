@@ -73,8 +73,5 @@ input.switch:empty~span:after {
 }
 
 span[for="focused-toggle"] {
-    /* TODO: Fix the flexbox issue in which the psuedoe elements are not able to be space-betweened */
+    /* TODO: Fix the flexbox issue in which the pseudo elements are not able to be space-betweened */
 }
-
-
-/* NEW TODO: Make a <span> element function similar to the span psuedoe elements that allow it to be toggled on/off for the material switch */
