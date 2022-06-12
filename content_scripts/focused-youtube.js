@@ -153,6 +153,10 @@ browser.runtime.onMessage.addListener((message) => {
     case "comments-enabled":
       removeDistraction("comments");
       break;
+    
+    case "suggestions-enabled":
+      removeDistraction("suggestions");
+      break;
   }
 });
 

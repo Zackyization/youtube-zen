@@ -86,6 +86,14 @@ function saveStorageOption(option, el_ID) {
         case "home-toggle":
             cmd = "HOME_ENABLE";
             break;
+
+        case "comments-toggle":
+            cmd ="COMMENTS_ENABLE";
+            break;
+
+        case "suggestions-toggle":
+            cmd = "SUGGESTIONS_ENABLE";
+            break;
     }
 
     sendingSaveCommand = browser.runtime.sendMessage({
@@ -115,6 +123,14 @@ function removeStorageOption(option) {
 
         case "home-toggle":
             cmd = "HOME_DISABLE";
+            break;
+
+        case "comments-toggle":
+            cmd = "COMMENTS_DISABLE";
+            break;
+
+        case "suggestions-toggle":
+            cmd = "SUGGESTIONS_DISABLE";
             break;
     }
 

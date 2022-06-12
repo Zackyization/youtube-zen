@@ -29,6 +29,16 @@ function saveStorageOption(request) {
             return browser.storage.local.set({
                 "home-toggle": request.inputID
             });
+
+        case "suggestions-toggle":
+            return browser.storage.local.set({
+                "suggestions-toggle": request.inputID
+            });
+
+        case "comments-toggle":
+            return browser.storage.local.set({
+                "comments-toggle": request.inputID
+            });
     }
 }
 
@@ -72,6 +82,14 @@ function processRequest(request) {
                             cmd = "home-enabled"
                             break;
 
+                        case "suggestions-toggle":
+                            cmd = "suggestions-enabled"
+                            break;
+
+                        case "comments-toggle":
+                            cmd = "comments-enabled";
+                            break;
+
                         default:
                             cmd = "focused-disabled"
                             break;
@@ -94,7 +112,9 @@ function processRequest(request) {
         let cmd;
 
         if (requestMsg === "FOCUSED_ENABLE" ||
-            requestMsg === "HOME_ENABLE") {
+            requestMsg === "HOME_ENABLE" ||
+            requestMsg === "SUGGESTIONS_ENABLE" ||
+            requestMsg === "COMMENTS_ENABLE") {
             //requests that enable
             switch (requestMsg) {
                 case "FOCUSED_ENABLE":
@@ -103,6 +123,14 @@ function processRequest(request) {
 
                 case "HOME_ENABLE":
                     cmd = "home-enabled";
+                    break;
+
+                case "SUGGESTIONS_ENABLE":
+                    cmd = "suggestions-enabled";
+                    break;
+
+                case "COMMENTS_ENABLE":
+                    cmd = "comments-enabled";
                     break;
             }
 
@@ -131,6 +159,14 @@ function processRequest(request) {
 
                 case "HOME_DISABLE":
                     cmd = "home-disabled"
+                    break;
+
+                case "SUGGESTIONS_DISABLE":
+                    cmd = "suggestions-disabled"
+                    break;
+
+                case "COMMENTS_DISABLE":
+                    cmd = "comments-disabled";
                     break;
             }
 
