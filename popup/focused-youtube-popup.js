@@ -3,14 +3,36 @@ const TOGGLES = document.querySelectorAll('.option-toggle');
 /**
  * Toggle material toggle span element switch
  */
-/// TODO: Make it so that when a custom toggle is switched to ON, the focused-only switch turns off
 let toggleElements = document.getElementsByClassName("toggle");
 let toggleFunction = (e) => {
     //search siblings for the checkbox input, toggle it upon click
-    let toggleCheckbox = e.originalTarget.parentNode.firstElementChild;
+    let targetToggle = e.originalTarget.parentNode.firstElementChild;
     let event = new Event("change");
-    toggleCheckbox.checked = !toggleCheckbox.checked;
-    toggleCheckbox.dispatchEvent(event);
+
+    //if turning on master switch while other toggles are turned on, turn off other toggles
+    if (targetToggle.id === "focused-toggle") {
+        if (targetToggle.checked === false) {
+            //when master switch is off, turn on the master switch and turn off the other switches
+            let checkedToggles = document.querySelectorAll(".option-toggle:checked");
+            checkedToggles.forEach((toggle) => {
+                toggle.checked = false;
+                toggle.dispatchEvent(event);
+            });
+        } else {
+            //when master switch is on, turn it off
+            targetToggle.checked = false;
+            targetToggle.dispatchEvent(event);
+        }
+    } else {
+        //if master switch is on and user clicks on custom switch, turn master switch off
+        let masterSwitch = document.getElementById("focused-toggle");
+        if (masterSwitch.checked === true) {
+            masterSwitch.checked = false;
+            masterSwitch.dispatchEvent(event);
+        }
+        targetToggle.checked = !targetToggle.checked;
+        targetToggle.dispatchEvent(event);
+    }
 }
 
 function handleError(error) {
@@ -58,7 +80,7 @@ function saveStorageOption(option, el_ID) {
         case "focused-toggle":
             cmd = "FOCUSED_ENABLE";
             break;
-        
+
         case "home-toggle":
             cmd = "HOME_ENABLE";
             break;
@@ -88,7 +110,7 @@ function removeStorageOption(option) {
         case "focused-toggle":
             cmd = "FOCUSED_DISABLE";
             break;
-        
+
         case "home-toggle":
             cmd = "HOME_DISABLE";
             break;
@@ -103,16 +125,30 @@ function removeStorageOption(option) {
     sendingRemoveCommand.then(handleResponse, handleError);
 }
 
-TOGGLES.forEach(el => el.addEventListener('change', event => {
-    let keyName = el.name;
-    if (el.checked) {
-        //enable
-        saveStorageOption(keyName, el.id);
-    } else {
-        //disable
-        removeStorageOption(keyName);
+// TOGGLES.forEach(el => el.addEventListener('change', event => {
+//     let keyName = el.name;
+//     if (el.checked) {
+//         //enable
+//         saveStorageOption(keyName, el.id);
+//     } else {
+//         //disable
+//         removeStorageOption(keyName);
+//     }
+// }));
+
+TOGGLES.forEach((el) => {
+    el.onchange = (evt) => {
+        let keyName = evt.target.name;
+        if (evt.target.checked === true) {
+            //enable
+            saveStorageOption(keyName, evt.target.id);
+        } else {
+            //disable
+            removeStorageOption(keyName);
+        }
     }
-}));
+})
+
 
 Array.from(toggleElements).forEach((e) => {
     e.addEventListener("click", toggleFunction);
