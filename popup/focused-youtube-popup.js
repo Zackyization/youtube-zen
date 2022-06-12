@@ -18,6 +18,8 @@ let toggleFunction = (e) => {
                 toggle.checked = false;
                 toggle.dispatchEvent(event);
             });
+            targetToggle.checked = true;
+            targetToggle.dispatchEvent(event);
         } else {
             //when master switch is on, turn it off
             targetToggle.checked = false;
@@ -125,17 +127,6 @@ function removeStorageOption(option) {
     sendingRemoveCommand.then(handleResponse, handleError);
 }
 
-// TOGGLES.forEach(el => el.addEventListener('change', event => {
-//     let keyName = el.name;
-//     if (el.checked) {
-//         //enable
-//         saveStorageOption(keyName, el.id);
-//     } else {
-//         //disable
-//         removeStorageOption(keyName);
-//     }
-// }));
-
 TOGGLES.forEach((el) => {
     el.onchange = (evt) => {
         let keyName = evt.target.name;
@@ -148,7 +139,6 @@ TOGGLES.forEach((el) => {
         }
     }
 })
-
 
 Array.from(toggleElements).forEach((e) => {
     e.addEventListener("click", toggleFunction);

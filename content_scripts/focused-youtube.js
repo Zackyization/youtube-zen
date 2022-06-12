@@ -11,16 +11,6 @@ const ACTIVATED_MESSAGE_STYLE_HEIGHT = "calc(100vh - 56px)";
 
 function handleResponse(message) {
   switch (message.command) {
-    // case "focused-enabled":
-    //   removeAllDistractions();
-    //   break;
-
-
-    // case "focused-disabled":
-    // case "home-disabled":
-    //   resetHomeDistractions();
-    //   break;
-
     case "check-successful":
       console.log("Check options successful!");
       break;
@@ -53,37 +43,47 @@ function removeVideoComments() {
 }
 
 /**
+ * Remove in video recommendations/suggestions
+ */
+function removeVideoAnnotationSuggestions() {
+  //get endscreen video recommendations
+  let ytEndScreen = document.getElementsByClassName("ytp-endscreen-content")[0];
+
+  //get floating video suggestions
+  let ytHoveringRecommended = document.getElementsByClassName("ytp-ce-element");
+  try {
+    Array.from(ytHoveringRecommended).forEach((recommendation) => {
+      recommendation.remove();
+    });
+    ytEndScreen.remove();
+  } catch (error) {
+    //do nothing
+  }
+}
+
+/**
+ * Remove suggested videos on the side from the watch page
+ */
+function removeSuggestedVideos() {
+  //NOTE: Similar to the problem described at the bottom of this file, a delay is used to guarantee removal of the element.
+  setTimeout(function () {
+    let recommendedVideos = document.getElementById("secondary-inner");
+    recommendedVideos.remove();
+  }, 1000);
+}
+
+/**
  * Visual changes are made on youtube page(s) to indicate that extension is enabled
  */
 function removeAllDistractions() {
   if (window.location.pathname == '/') {
     removeHomePageDistractions();
   } else if (window.location.pathname == '/watch') {
-    // remove end of video recommendations
-    let ytEndScreen = document.getElementsByClassName("ytp-endscreen-content")[0];
-
-    //remove floating video suggestions
-    let ytHoveringRecommended = document.getElementsByClassName("ytp-ce-element");
-    Array.from(ytHoveringRecommended).forEach((recommendation) => {
-      recommendation.remove();
-    });
-
+    removeVideoAnnotationSuggestions();
     removeVideoComments();
-
-    // remove recommended videos section
-    setTimeout(function () {
-      let recommendedVideos = document.getElementById("secondary-inner");
-      recommendedVideos.remove();
-    }, 1000);
-
-    try {
-      ytEndScreen.remove();
-    } catch (error) {
-      //do nothing
-    }
+    removeSuggestedVideos();
   }
 }
-
 
 /**
  * Remove/reset specific distractions specified by the parameter
@@ -96,6 +96,10 @@ function removeDistraction(option) {
 
     case "comments":
       removeVideoComments();
+      break;
+
+    case "suggestions":
+      removeSuggestedVideos();
       break;
   }
 }
