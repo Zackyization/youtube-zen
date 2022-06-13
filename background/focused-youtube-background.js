@@ -39,6 +39,11 @@ function saveStorageOption(request) {
             return browser.storage.local.set({
                 "comments-toggle": request.inputID
             });
+
+        case "in-video-toggle":
+            return browser.storage.local.set({
+                "in-video-toggle": request.inputID
+            });
     }
 }
 
@@ -90,6 +95,10 @@ function processRequest(request) {
                             cmd = "comments-enabled";
                             break;
 
+                        case "in-video-toggle":
+                            cmd = "in-video-enabled";
+                            break;
+
                         default:
                             cmd = "focused-disabled"
                             break;
@@ -100,12 +109,33 @@ function processRequest(request) {
                             command: cmd
                         });
                     }
-
-                    return Promise.resolve({
-                        command: "check-successful"
-                    });
                 });
             }, onError);
+        return Promise.resolve({
+            response: "check-user-options-processed"
+        });
+    } else if (request.message === "CHECK_VIDEO_SUGGESTIONS_ENABLED") {
+        let cmd;
+        let gettingUserChoices = getUserChoices();
+        gettingUserChoices.then((usrChoices) => {
+                if (usrChoices.hasOwnProperty("focused-toggle") || usrChoices.hasOwnProperty("suggestions-toggle")) {
+                    cmd = "check-video-suggestions-enabled-found";
+                }
+
+                return querying;
+            }, onError)
+            .then((tabs) => {
+                for (let tab of tabs) {
+                    browser.tabs.sendMessage(tab.id, {
+                        command: cmd
+                    });
+                }
+            }, onError);
+
+
+        return Promise.resolve({
+            response: "check-video-suggestions-processed"
+        });
     } else {
         let requestMsg = request.message.command;
         let option = request.message.content;
@@ -114,7 +144,8 @@ function processRequest(request) {
         if (requestMsg === "FOCUSED_ENABLE" ||
             requestMsg === "HOME_ENABLE" ||
             requestMsg === "SUGGESTIONS_ENABLE" ||
-            requestMsg === "COMMENTS_ENABLE") {
+            requestMsg === "COMMENTS_ENABLE" ||
+            requestMsg === "IN_VIDEO_ENABLE") {
             //requests that enable
             switch (requestMsg) {
                 case "FOCUSED_ENABLE":
@@ -131,6 +162,10 @@ function processRequest(request) {
 
                 case "COMMENTS_ENABLE":
                     cmd = "comments-enabled";
+                    break;
+
+                case "IN_VIDEO_ENABLE":
+                    cmd = "in-video-enabled";
                     break;
             }
 
@@ -167,6 +202,10 @@ function processRequest(request) {
 
                 case "COMMENTS_DISABLE":
                     cmd = "comments-disabled";
+                    break;
+
+                case "IN_VIDEO_DISABLE":
+                    cmd = "in-video-disabled";
                     break;
             }
 

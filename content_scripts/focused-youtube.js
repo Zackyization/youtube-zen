@@ -10,12 +10,17 @@ const ACTIVATED_MESSAGE = `<article id="yt-focused-area">
 const ACTIVATED_MESSAGE_STYLE_HEIGHT = "calc(100vh - 56px)";
 
 function handleResponse(message) {
-  switch (message.command) {
-    case "check-successful":
-      console.log("Check options successful!");
+  switch (message.response) {
+    case "check-user-options-processed":
+      console.log("User options processed!");
+      break;
+
+    case "check-video-suggestions-processed":
+      console.log("Video suggestions check processed!");
       break;
   }
 }
+2
 
 function handleError(error) {
   console.log(`Error: ${error}`);
@@ -71,13 +76,24 @@ function removeVideoAnnotationSuggestions() {
 function removeSuggestedVideos() {
   //NOTE: Similar to the problem described at the bottom of this file, a delay is used to guarantee removal of the element.
   setTimeout(function () {
-    let recommendedVideos = document.getElementById("secondary-inner");
+    let recommendedVideos = document.getElementById("related");
     try {
       recommendedVideos.remove();
     } catch (error) {
       //do nothing
     }
   }, 1000);
+}
+
+/**
+ * Checks whether video suggestion section is removed, whether the window is resized or not
+ */
+function checkVideoSuggestions() {
+  //check with background script whether "focused-toggle" or "suggestions-toggle" is in storage
+  let checkingVideoSuggestionEnabled = browser.runtime.sendMessage({
+    message: "CHECK_VIDEO_SUGGESTIONS_ENABLED",
+  });
+  checkingVideoSuggestionEnabled.then(handleResponse, handleError);
 }
 
 /**
@@ -102,12 +118,16 @@ function removeDistraction(option) {
       removeHomePageDistractions();
       break;
 
+    case "suggestions":
+      removeSuggestedVideos();
+      break;
+
     case "comments":
       removeVideoComments();
       break;
 
-    case "suggestions":
-      removeSuggestedVideos();
+    case "in-video":
+      removeVideoAnnotationSuggestions();
       break;
   }
 }
@@ -158,12 +178,18 @@ browser.runtime.onMessage.addListener((message) => {
       removeDistraction("home");
       break;
 
+    case "check-video-suggestions-enabled-found":
+    case "suggestions-enabled":
+      removeDistraction("suggestions");
+      break;
+
     case "comments-enabled":
       removeDistraction("comments");
       break;
 
-    case "suggestions-enabled":
-      removeDistraction("suggestions");
+
+    case "in-video-enabled":
+      removeDistraction("in-video");
       break;
   }
 });
@@ -176,3 +202,4 @@ the setTimeout guarantees that the removals will happen, a temporary solution fo
 setTimeout(function () {
   checkUserOptions();
 }, 1200);
+window.addEventListener("resize", checkVideoSuggestions)

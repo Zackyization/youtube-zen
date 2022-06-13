@@ -94,6 +94,10 @@ function saveStorageOption(option, el_ID) {
         case "suggestions-toggle":
             cmd = "SUGGESTIONS_ENABLE";
             break;
+
+        case "in-video-toggle":
+            cmd = "IN_VIDEO_ENABLE";
+            break;
     }
 
     sendingSaveCommand = browser.runtime.sendMessage({
@@ -131,6 +135,10 @@ function removeStorageOption(option) {
 
         case "suggestions-toggle":
             cmd = "SUGGESTIONS_DISABLE";
+            break;
+
+        case "in-video-toggle":
+            cmd = "IN_VIDEO_DISABLE";
             break;
     }
 
