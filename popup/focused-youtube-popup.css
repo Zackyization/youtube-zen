@@ -1,14 +1,58 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@500&display=swap');
 /* 
     Styling for the pop up menu
 */
 
-/* TODO: Styling for pop up form */
-/* https://codepen.io/mhoward/pen/PGavJp, material toggle switch reference */
+/* NOTE: I used the link below as reference for the material style toggle switch! */
+/* https://codepen.io/mhoward/pen/PGavJp*/
+
+html {
+    background: linear-gradient(180deg, #7C3535 0%, #4A1616 100%);
+    margin: 0;
+    height: 100%;
+    overflow: hidden;
+}
+
+body {
+    max-width: 250px;
+    color:#B14040;
+    font-family: 'Roboto', sans-serif;
+    font-size: 16px;
+    padding: 0 12px;
+}
+
+hr {
+    width: 40%;
+    background-color: #7B4040;
+    border: none;
+    height: 1px;
+}
+
+header {
+    text-align: center;
+    padding-top: 12px;
+}
+
+footer {
+    width: 100%;
+    text-align: center;
+    font-size: 10px;
+}
+
+footer p {
+    padding-top: 30px;
+    padding-bottom: 12px;
+    display: inline-block;
+    color: #FF9900;
+}
+
 .material-toggle {
     width: 100vw;
     display: flex;
     justify-content: space-between;
+    margin-top: 22px;
 }
+
 
 .material-toggle input:empty {
     visibility: hidden;
@@ -42,7 +86,7 @@
     width: 32px;
     height: 13px;
     border-radius: 12px;
-    background-color: #bdbdbd;
+    background-color: #bdbdbd70;
 }
 
 input.switch:empty~span:after {
@@ -63,13 +107,17 @@ input.switch:empty~span:after {
 }
 
 .material-toggle input:checked~span:before {
-    background-color: #1e88e5;
+    background-color: #71CE6970;
 }
+
+input:checked~label {
+    color: #E25959;
+} 
 
 .material-toggle input:checked~span:after {
     left: 15px;
-    background-color: #1565c0;
-    border-color: #1565c0;
+    background-color: #71CE69;
+    border-color: #71CE69;
 }
 
 span[for="focused-toggle"] {
