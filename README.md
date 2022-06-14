@@ -1,6 +1,8 @@
-![Focused-Youtube Logo.](/icons/focused_youtube_icon_default.svg "Focused-Youtube Logo")
+<p align="center">
+    <img src="/icons/focused_youtube_icon_default.svg" alt="Focused-Youtube Logo" title="Focused-Youtube Logo" width="25%">
+</p>
 
-# Focused Youtube
+# Focused-Youtube
 Removes distracting elements on Youtube to help you focus on the content you're searching for.
 
 It removes the following elements from Youtube:
@@ -12,7 +14,7 @@ It removes the following elements from Youtube:
 The extension is only available for firefox as of now, but I have plans to make it available for chrome as well so stay tuned!
 
 ## Installation
-This project is still in early development but if you would like to temporarily install it, steps are as follows:
+This project has not been published to the Firefox add-on store yet but if you would like to try it out, follow the  steps below:
 1. Clone the repository to your machine.
 2. Open firefox and type ```about:debugging``` in the address bar.
 3. Click "This Firefox"

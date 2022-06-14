@@ -1,7 +1,7 @@
 {
     "manifest_version": 3,
     "name": "Focused Youtube",
-    "version": "1.00",
+    "version": "1.01",
     "description": "Boosts productivity by removing video links from your recommended on youtube.",
     "homepage_url": "https://github.com/Zackyization/focused-youtube",
 
