@@ -1,10 +1,7 @@
-@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@500&display=swap');
 /* 
     Styling for the pop up menu
 */
-
-/* NOTE: I used the link below as reference for the material style toggle switch! */
-/* https://codepen.io/mhoward/pen/PGavJp*/
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@500&display=swap');
 
 html {
     background: linear-gradient(180deg, #7C3535 0%, #4A1616 100%);
@@ -14,8 +11,8 @@ html {
 }
 
 body {
-    max-width: 250px;
-    color:#B14040;
+    width: 250px;
+    color: #B14040;
     font-family: 'Roboto', sans-serif;
     font-size: 16px;
     padding: 0 12px;
@@ -26,6 +23,7 @@ hr {
     background-color: #7B4040;
     border: none;
     height: 1px;
+    margin-top: 3em;
 }
 
 header {
@@ -36,23 +34,22 @@ header {
 footer {
     width: 100%;
     text-align: center;
-    font-size: 10px;
+    font-size: 13px;
 }
 
 footer p {
-    padding-top: 30px;
-    padding-bottom: 12px;
+    padding-top: 22px;
+    padding-bottom: 5px;
     display: inline-block;
-    color: #FF9900;
+    color: #E25959;
 }
 
 .material-toggle {
-    width: 100vw;
+    width: 100%;
     display: flex;
     justify-content: space-between;
     margin-top: 22px;
 }
-
 
 .material-toggle input:empty {
     visibility: hidden;
@@ -63,7 +60,7 @@ footer p {
     position: relative;
     float: left;
     width: 5em;
-    /*  max-width: TODO: Once you figure out the styling of the pop up menu, decide on the max-width value for responsive toggle switch positioning */
+    max-width: 32px;
     cursor: pointer;
     -webkit-user-select: none;
     -moz-user-select: none;
@@ -106,13 +103,13 @@ input.switch:empty~span:after {
     box-shadow: 0 3px 4px 0 rgba(0, 0, 0, .14), 0 3px 3px -2px rgba(0, 0, 0, .2), 0 1px 8px 0 rgba(0, 0, 0, .12);
 }
 
+input:checked~label {
+    color: #E25959;
+}
+
 .material-toggle input:checked~span:before {
     background-color: #71CE6970;
 }
-
-input:checked~label {
-    color: #E25959;
-} 
 
 .material-toggle input:checked~span:after {
     left: 15px;
@@ -120,6 +117,27 @@ input:checked~label {
     border-color: #71CE69;
 }
 
-span[for="focused-toggle"] {
-    /* TODO: Fix the flexbox issue in which the pseudo elements are not able to be space-betweened */
+.material-toggle:first-of-type {
+    justify-content: center;
+    flex-wrap: wrap;
+    margin-top: 9px;
+}
+
+.material-toggle:first-of-type .toggle {
+    margin-top: 6px;
+}
+
+label[for="focused-toggle"] {
+    text-align: center;
+}
+
+#focused-toggle~label {
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    display: inline-block;
+}
+
+.material-toggle:nth-of-type(2) {
+    margin-top: 10px;
 }
