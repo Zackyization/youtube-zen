@@ -1,31 +1,31 @@
 {
     "manifest_version": 2,
-    "name": "Focused Youtube",
-    "version": "1.03",
+    "name": "Youtube Zen",
+    "version": "1.0.3",
     "description": "Boosts productivity by removing certain distracting elements on youtube.",
-    "homepage_url": "https://github.com/Zackyization/focused-youtube",
+    "homepage_url": "https://github.com/Zackyization/youtube-zen",
 
     "browser_action": {
         "browser_style": true,
-        "default_title": "Focused Youtube",
-        "default_popup": "popup/focused-youtube-popup.html"
+        "default_title": "Youtube Zen",
+        "default_popup": "popup/youtube-zen-popup.html"
     },
 
     "background" : {
-        "scripts": ["background/focused-youtube-background.js"]
+        "scripts": ["background/youtube-zen-background.js"]
     },
 
     "content_scripts": [{
         "matches": ["*://*.youtube.com/*"],
-        "js": ["content_scripts/focused-youtube.js"],
+        "js": ["content_scripts/youtube-zen.js"],
         "css": ["css/youtube-home.css"],
         "run_at": "document_idle",
         "all_frames": true
     }],
 
     "icons": {
-        "48": "icons/focused_youtube_icon_default.svg",
-        "96": "icons/focused_youtube_icon_default.svg"
+        "48": "icons/youtube_zen_icon_square.svg",
+        "96": "icons/youtube_zen_icon_square.svg"
     },
 
     "permissions": [

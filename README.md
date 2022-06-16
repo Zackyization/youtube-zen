@@ -1,8 +1,8 @@
 <p align="center">
-    <img src="/icons/focused_youtube_icon_default.svg" alt="Focused-Youtube Logo" title="Focused-Youtube Logo" width="25%">
+    <img src="/icons/youtube_zen_icon_default.svg" alt="youtube zen Logo" title="youtube zen Logo" width="25%">
 </p>
 
-# Focused-Youtube
+# Youtube Zen
 Removes distracting elements on Youtube to help you focus on the content you're searching for.
 
 It removes the following elements from Youtube:

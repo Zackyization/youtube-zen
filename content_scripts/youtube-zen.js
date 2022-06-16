@@ -1,12 +1,4 @@
 const YOUTUBE_PAGE_MANAGER = document.getElementById("page-manager");
-const ACTIVATED_MESSAGE = `<article id="yt-focused-area">
-<section class="content">
-    <div>
-        <span>(▀̿Ĺ̯▀̿ ̿)</span>
-        <h2 id="yt-focused-home-message">Focused Youtube enabled.</h2>
-    </div>
-</section>
-</article>`;
 const ACTIVATED_MESSAGE_STYLE_HEIGHT = "calc(100vh - 56px)";
 
 function handleResponse(message) {
@@ -32,7 +24,14 @@ function handleError(error) {
 function removeHomePageDistractions() {
   let browsingArea = document.getElementsByTagName("ytd-browse")[0];
   try {
-    browsingArea.innerHTML = ACTIVATED_MESSAGE;
+    browsingArea.innerHTML = `<article id="yt-zen-area">
+    <section class="content">
+        <div>
+            <span>(▀̿Ĺ̯▀̿ ̿)</span>
+            <h2 id="yt-zen-home-message">Youtube Zen enabled.</h2>
+        </div>
+    </section>
+    </article>`;
     browsingArea.style.height = ACTIVATED_MESSAGE_STYLE_HEIGHT;
   } catch (error) {
     //do nothing
@@ -89,7 +88,7 @@ function removeSuggestedVideos() {
  * Checks whether video suggestion section is removed, whether the window is resized or not
  */
 function checkVideoSuggestions() {
-  //check with background script whether "focused-toggle" or "suggestions-toggle" is in storage
+  //check with background script whether "zen-toggle" or "suggestions-toggle" is in storage
   let checkingVideoSuggestionEnabled = browser.runtime.sendMessage({
     message: "CHECK_VIDEO_SUGGESTIONS_ENABLED",
   });
@@ -140,7 +139,7 @@ function removeDistraction(option) {
  * Visual changes are made on youtube page(s) to indicate that extension is disabled
  */
 function resetHomeDistractions() {
-  let homeMessage = document.getElementById("yt-focused-home-message");
+  let homeMessage = document.getElementById("yt-zen-home-message");
   try {
     homeMessage.innerHTML = "Disabled! Refresh to see changes take effect.";
   } catch (error) {
@@ -165,11 +164,11 @@ function checkUserOptions() {
  */
 browser.runtime.onMessage.addListener((message) => {
   switch (message.command) {
-    case "focused-enabled":
+    case "zen-enabled":
       removeAllDistractions();
       break;
 
-    case "focused-disabled":
+    case "zen-disabled":
     case "home-disabled":
       resetHomeDistractions();
       break;

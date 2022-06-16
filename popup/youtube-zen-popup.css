@@ -127,11 +127,11 @@ input:checked~label {
     margin-top: 6px;
 }
 
-label[for="focused-toggle"] {
+label[for="zen-toggle"] {
     text-align: center;
 }
 
-#focused-toggle~label {
+#zen-toggle~label {
     margin: 0;
     padding: 0;
     width: 100%;

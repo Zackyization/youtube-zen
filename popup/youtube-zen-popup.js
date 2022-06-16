@@ -10,7 +10,7 @@ let toggleFunction = (e) => {
     let event = new Event("change");
 
     //if turning on master switch while other toggles are turned on, turn off other toggles
-    if (targetToggle.id === "focused-toggle") {
+    if (targetToggle.id === "zen-toggle") {
         if (targetToggle.checked === false) {
             //when master switch is off, turn on the master switch and turn off the other switches
             let checkedToggles = document.querySelectorAll(".option-toggle:checked");
@@ -27,7 +27,7 @@ let toggleFunction = (e) => {
         }
     } else {
         //if master switch is on and user clicks on custom switch, turn master switch off
-        let masterSwitch = document.getElementById("focused-toggle");
+        let masterSwitch = document.getElementById("zen-toggle");
         if (masterSwitch.checked === true) {
             masterSwitch.checked = false;
             masterSwitch.dispatchEvent(event);
@@ -79,8 +79,8 @@ function saveStorageOption(option, el_ID) {
     let sendingSaveCommand;
     let cmd;
     switch (option) {
-        case "focused-toggle":
-            cmd = "FOCUSED_ENABLE";
+        case "zen-toggle":
+            cmd = "ZEN_ENABLE";
             break;
 
         case "home-toggle":
@@ -121,8 +121,8 @@ function removeStorageOption(option) {
     let cmd;
 
     switch (option) {
-        case "focused-toggle":
-            cmd = "FOCUSED_DISABLE";
+        case "zen-toggle":
+            cmd = "ZEN_DISABLE";
             break;
 
         case "home-toggle":

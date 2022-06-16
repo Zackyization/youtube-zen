@@ -20,9 +20,9 @@ function removeStorageOption(request) {
 
 function saveStorageOption(request) {
     switch (request.keyName) {
-        case "focused-toggle":
+        case "zen-toggle":
             return browser.storage.local.set({
-                "focused-toggle": request.inputID
+                "zen-toggle": request.inputID
             });
 
         case "home-toggle":
@@ -79,8 +79,8 @@ function processRequest(request) {
                 let cmd;
                 enabledOptions.forEach(option => {
                     switch (option) {
-                        case "focused-toggle":
-                            cmd = "focused-enabled"
+                        case "zen-toggle":
+                            cmd = "zen-enabled"
                             break;
 
                         case "home-toggle":
@@ -100,7 +100,7 @@ function processRequest(request) {
                             break;
 
                         default:
-                            cmd = "focused-disabled"
+                            cmd = "zen-disabled"
                             break;
                     }
 
@@ -118,7 +118,7 @@ function processRequest(request) {
         let cmd;
         let gettingUserChoices = getUserChoices();
         gettingUserChoices.then((usrChoices) => {
-                if (usrChoices.hasOwnProperty("focused-toggle") || usrChoices.hasOwnProperty("suggestions-toggle")) {
+                if (usrChoices.hasOwnProperty("zen-toggle") || usrChoices.hasOwnProperty("suggestions-toggle")) {
                     cmd = "check-video-suggestions-enabled-found";
                 }
 
@@ -141,15 +141,15 @@ function processRequest(request) {
         let option = request.message.content;
         let cmd;
 
-        if (requestMsg === "FOCUSED_ENABLE" ||
+        if (requestMsg === "ZEN_ENABLE" ||
             requestMsg === "HOME_ENABLE" ||
             requestMsg === "SUGGESTIONS_ENABLE" ||
             requestMsg === "COMMENTS_ENABLE" ||
             requestMsg === "IN_VIDEO_ENABLE") {
             //requests that enable
             switch (requestMsg) {
-                case "FOCUSED_ENABLE":
-                    cmd = "focused-enabled";
+                case "ZEN_ENABLE":
+                    cmd = "zen-enabled";
                     break;
 
                 case "HOME_ENABLE":
@@ -188,8 +188,8 @@ function processRequest(request) {
         } else {
             //requests that disable
             switch (requestMsg) {
-                case "FOCUSED_DISABLE":
-                    cmd = "focused-disabled"
+                case "ZEN_DISABLE":
+                    cmd = "zen-disabled"
                     break;
 
                 case "HOME_DISABLE":
