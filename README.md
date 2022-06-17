@@ -3,7 +3,7 @@
 </p>
 
 # Youtube Zen
-Removes distracting elements on Youtube to help you focus on the content you're searching for.
+A Firefox web extension that removes distracting elements on Youtube to help you focus on the content you're searching for.
 
 It removes the following elements from Youtube:
 - Home page suggestions
@@ -14,9 +14,13 @@ It removes the following elements from Youtube:
 The extension is only available for firefox as of now, but I have plans to make it available for chrome as well so stay tuned!
 
 ## Installation
-This project has not been published to the Firefox add-on store yet but if you would like to try it out, follow the  steps below:
-1. Clone the repository to your machine.
-2. Open firefox and type ```about:debugging``` in the address bar.
-3. Click "This Firefox"
-4. Click "Load Temporary Add-on..." and navigate to where you cloned the repository.
-5. Double click on any file in repository.
+You can install this extension on the [Firefox addon store...](https://addons.mozilla.org/en-US/firefox/addon/youtube-zen_/)
+
+OR
+
+Installing it manually by:
+1. Downloading the latest release here.
+2. Press ```Ctrl+Shift+A``` on Firefox.
+3. Click the gear icon in the upper right.
+4. Click on "Install Add-on From File..." 
+5. Select the ```youtube_zen-x.x.x.xpi``` file in your machine.
