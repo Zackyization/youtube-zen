@@ -1,5 +1,5 @@
 <p align="center">
-    <img src="/icons/youtube_zen_icon_default.svg" alt="youtube zen Logo" title="youtube zen Logo" width="25%">
+    <img src="src/icons/youtube_zen_icon_default.svg" alt="youtube zen Logo" title="youtube zen Logo" width="25%">
 </p>
 
 # Youtube Zen
@@ -18,7 +18,7 @@ You can install this extension on the [Firefox addon store...](https://addons.mo
 
 OR
 
-Installing it manually by:
+By installing it manually by:
 1. Downloading the latest release here.
 2. Press ```Ctrl+Shift+A``` on Firefox.
 3. Click the gear icon in the upper right.

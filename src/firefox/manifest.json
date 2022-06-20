@@ -1,6 +1,6 @@
 {
-    "manifest_version": 2,
     "name": "Youtube Zen",
+    "manifest_version": 2,
     "version": "1.0.3",
     "description": "Boosts productivity by removing certain distracting elements on youtube.",
     "homepage_url": "https://github.com/Zackyization/youtube-zen",

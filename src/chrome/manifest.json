@@ -1,0 +1,49 @@
+// TODO: Convert this manifest to be compatible for chrome MV3
+{
+    "name": "Youtube Zen",
+    "manifest_version": 3,
+    "version": "1.0.3",
+    "description": "Boosts productivity by removing certain distracting elements on youtube.",
+    "homepage_url": "https://github.com/Zackyization/youtube-zen",
+
+    "browser_action": {
+        "browser_style": true,
+        "default_title": "Youtube Zen",
+        "default_popup": "popup/youtube-zen-popup.html"
+    },
+
+    "action": {
+        "default_popup": "popup/youtube-zen-popup.html",
+        "default_icon": {
+            "48": "icons/youtube_zen_icon_square.svg",
+            "96": "icons/youtube_zen_icon_square.svg"
+        }
+    },
+
+    "background": {
+        "service_worker": "background/youtube-zen-background.js",
+        "scripts": ["background/youtube-zen-background.js"]
+    },
+
+    "content_scripts": [{
+        "matches": ["*://*.youtube.com/*"],
+        "js": ["content_scripts/youtube-zen.js"],
+        "css": ["css/youtube-home.css"],
+        "run_at": "document_idle",
+        "all_frames": true
+    }],
+
+    "icons": {
+        "48": "icons/youtube_zen_icon_square.svg",
+        "96": "icons/youtube_zen_icon_square.svg"
+    },
+
+    "permissions": [
+        "*://*.youtube.com/*",
+        "storage",
+        "tabs"
+    ],
+    "host_permissions": [
+        "*://*.youtube.com/*"
+    ]
+}

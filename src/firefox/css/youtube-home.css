@@ -1,0 +1,20 @@
+/* Styling for the youtube home page goes here */
+#yt-zen-area {
+    text-align: center;
+    font-size: xx-large;
+}
+
+#yt-zen-area {
+    color: #444343;
+}
+
+#yt-zen-area,
+#yt-zen-area .content {
+    height: 100%;
+}
+
+#yt-zen-area .content {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
