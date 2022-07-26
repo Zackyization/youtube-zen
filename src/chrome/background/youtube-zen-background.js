@@ -11,37 +11,37 @@ function onError(error) {
 }
 
 function getUserChoices() {
-    return browser.storage.local.get();
+    return chrome.storage.local.get();
 }
 
 function removeStorageOption(request) {
-    return browser.storage.local.remove(request);
+    return chrome.storage.local.remove(request);
 }
 
 function saveStorageOption(request) {
     switch (request.keyName) {
         case "zen-toggle":
-            return browser.storage.local.set({
+            return chrome.storage.local.set({
                 "zen-toggle": request.inputID
             });
 
         case "home-toggle":
-            return browser.storage.local.set({
+            return chrome.storage.local.set({
                 "home-toggle": request.inputID
             });
 
         case "suggestions-toggle":
-            return browser.storage.local.set({
+            return chrome.storage.local.set({
                 "suggestions-toggle": request.inputID
             });
 
         case "comments-toggle":
-            return browser.storage.local.set({
+            return chrome.storage.local.set({
                 "comments-toggle": request.inputID
             });
 
         case "in-video-toggle":
-            return browser.storage.local.set({
+            return chrome.storage.local.set({
                 "in-video-toggle": request.inputID
             });
     }
@@ -53,14 +53,17 @@ function queryYoutubeTabs() {
     });
 }
 
-function handleUpdated(tabId, changeInfo, tabInfo) {
-    //check whether url is home page or watch page
-    let executing = browser.tabs.executeScript(tabId, {
-        code: "checkUserOptions()"
-    });
-    executing.then(() => {
-        console.log("Updated executed!");
-    }, handleError);
+function handleUpdated(tab_id, changeInfo, tabInfo) {
+    let req = "CHECK_OPTIONS";
+    if (tabInfo.url === "REPLACE THIS DWA") {
+        chrome.scripting.executeScript({
+            target: {
+                tabId: tab_id
+            },
+            func: processRequest,
+            args: [req]
+        });
+    }
 }
 
 function processRequest(request) {
@@ -189,15 +192,15 @@ function processRequest(request) {
             //requests that disable
             switch (requestMsg) {
                 case "ZEN_DISABLE":
-                    cmd = "zen-disabled"
+                    cmd = "zen-disabled";
                     break;
 
                 case "HOME_DISABLE":
-                    cmd = "home-disabled"
+                    cmd = "home-disabled";
                     break;
 
                 case "SUGGESTIONS_DISABLE":
-                    cmd = "suggestions-disabled"
+                    cmd = "suggestions-disabled";
                     break;
 
                 case "COMMENTS_DISABLE":
@@ -229,5 +232,12 @@ function processRequest(request) {
     }
 }
 
-browser.runtime.onMessage.addListener(processRequest);
-browser.tabs.onUpdated.addListener(handleUpdated, filter);
+chrome.runtime.onMessage.addListener(processRequest);
+// chrome.tabs.onUpdated.addListener(handleUpdated);
+chrome.webNavigation.onCompleted.addListener({
+    callback: handleUpdated,
+    filters: filter
+});
+
+/// LEFT OFF HERE: You were reading this page on StackOverflow, https://stackoverflow.com/questions/27239280/chrome-webnavigation-oncomplete-not-working
+/// Investigate the push state change thing

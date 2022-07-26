@@ -54,7 +54,7 @@ function initialize() {
     /**
      * Toggles the checkboxes accordingly based on user's last saved settings
      */
-    let gettingUserChoices = chrome.storage.local.get();
+    let gettingUserChoices = browser.storage.local.get();
     gettingUserChoices.then((results) => {
         let options = Object.keys(results);
         for (let option of options) {
